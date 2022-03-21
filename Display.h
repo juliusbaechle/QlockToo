@@ -1,5 +1,102 @@
 #pragma once
 
+#include <Adafruit_NeoPixel.h>
+
+#define LED_PIN 18 //Pin des LED-Bands
+#define NUMPIXELS 114 //Anzahl der LEDs
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, LED_PIN, NEO_RGBW + NEO_KHZ800); //Inizialisierung der NeoPixels Bibliothek
+
+void leuchten(int n) {
+  if (currentTime == startupTime || currentTime == "0" + startupTime)
+    shutdown = false;
+  if (currentTime == shutdownTime || currentTime == "0" + shutdownTime)
+    shutdown = true;
+
+  if (shutdown) {
+    pixels.setPixelColor(n, pixels.Color(0, 0, 0, 0));
+  } else if (color == "weis") {
+    pixels.setPixelColor(n, pixels.Color(0, 0, 0, brightness));
+  } else if (color == "rot") {
+    pixels.setPixelColor(n, pixels.Color(0, brightness, 0, 0));
+  } else if (color == "grün") {
+    pixels.setPixelColor(n, pixels.Color(brightness, 0, 0, 0));
+  } else if (color == "blau") {
+    pixels.setPixelColor(n, pixels.Color(0, 0, brightness, 0));
+  } else if (color == "violett") {
+    pixels.setPixelColor(n, pixels.Color(153, 50, 204, 0));
+  } else if (color == "gelb") {
+    pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0, 0));
+  } else {
+    pixels.setPixelColor(n, pixels.Color(0, 0, 0, brightness));
+  }
+
+  pixels.show();
+
+  // if (inputMessage1 == "heart") {
+  //   pixels.clear();
+  //   pixels.setPixelColor(104, pixels.Color(0, brightness, 0));
+  //   pixels.setPixelColor(94, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(92, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(80, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(84, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(74, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(68, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(56, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(64, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(54, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(44, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(43, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(33, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(31, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(23, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(38, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(28, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(26, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(14, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(13, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(18, pixels.Color(0, brightness, 0, 0));
+  //   pixels.setPixelColor(19, pixels.Color(0, brightness, 0, 0));
+  // }
+  // 
+  // if(inputMessage1 == "Kati"){
+  //   pixels.clear();
+  //   pixels.setPixelColor(0, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(1, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(2, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(3, pixels.Color(0,0,  0, brightness));
+  // }
+  // 
+  // if(inputMessage1 == "Andi"){
+  //   pixels.clear();
+  //   pixels.setPixelColor(37, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(38, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(39, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(40, pixels.Color(0,0,  0, brightness));
+  // }
+  // 
+  // if(inputMessage1 == "KatiAndi"){
+  //   pixels.clear();
+  //   pixels.setPixelColor(0, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(1, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(2, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(3, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(37, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(38, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(39, pixels.Color(0,0,  0, brightness));
+  //   pixels.setPixelColor(40, pixels.Color(0,0,  0, brightness));
+  // }
+  // 
+  // if (inputMessage1 == "Wilma") {
+  //   pixels.clear();
+  //   pixels.setPixelColor(28, pixels.Color(0, 0, 0, brightness));
+  //   pixels.setPixelColor(27, pixels.Color(0, 0, 0, brightness));
+  //   pixels.setPixelColor(26, pixels.Color(0, 0, 0, brightness));
+  //   pixels.setPixelColor(37, pixels.Color(0, 0, 0, brightness));
+  //   pixels.setPixelColor(38, pixels.Color(0, 0, 0, brightness));
+  // }
+
+}
+
 void vor() {
   leuchten(41);
   leuchten(42);
@@ -153,168 +250,122 @@ void zwoelfe() {
   leuchten(87);
 }
 
-void leuchten(int n) {
-  if (onoffState == "ON") {
+void es() {
+  leuchten(10);
+  leuchten(9);
+}
 
-    if (farbe == "weis") {
-      pixels.setPixelColor(n, pixels.Color(0, 0, 0, brightness));
-    }
+void isch() {
+  leuchten(7);
+  leuchten(6);
+  leuchten(5);
+  leuchten(4);
+}
 
-    else if (farbe == "rot") {
-      pixels.setPixelColor(n, pixels.Color(0, brightness, 0, 0));
-    }
+void displayTime(int hours, int minutes, int seconds) {
+  static bool clear = 0;
 
-    else if (farbe == "grün") {
-      pixels.setPixelColor(n, pixels.Color(brightness, 0, 0, 0));
-    }
-    else if (farbe == "blau") {
-      pixels.setPixelColor(n, pixels.Color(0, 0, brightness, 0));
-    }
+  if (minutes > 15)
+    hours++;
+  if (hours > 12)
+    hours -= 12;
 
-    else if (farbe == "violett") {
-      pixels.setPixelColor(n, pixels.Color(153, 50, 204, 0));
-    }
-
-    else if (farbe == "gelb") {
-      pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0, 0));
-    }
-
-    else {
-      pixels.setPixelColor(n, pixels.Color(0, 0, 0, brightness));
-    }
+  int eckMin = minutes % 5;
+  if (eckMin == 0 && clear) {
+    pixels.clear(); //immer wenn eine neue 5min Phase beginnt, wird die Anzeige der Uhr aktualisiert
+    clear = false; //clearVal wird auf 1 gesetzt, damit das Display bei vollen 5min nicht schnell blinkt, da es immer wider aktualisiert wird
+  }
+  if (eckMin == 1) {
+    leuchten(112);
+    clear = true; //clearVal wird für den nähsten Zyklus wieder auf 0 gesetzt
+  }
+  if (eckMin == 2) {
+    leuchten(112);
+    leuchten(111);
+  }
+  if (eckMin == 3) {
+    leuchten(112);
+    leuchten(111);
+    leuchten(110);
+  }
+  if (eckMin == 4) {
+    leuchten(112);
+    leuchten(111);
+    leuchten(110);
+    leuchten(113);
   }
 
-  if (onoffState == "OFF") {
-    pixels.setPixelColor(n, pixels.Color(0, 0, 0, 0));
+  es();
+  isch();
+
+  if (minutes >= 5 && minutes < 10) {
+    fuenf();
+    nach();
   }
 
-  if (farbe == "weis" && onoffState == "ON") {
-    pixels.setPixelColor(n, pixels.Color(0, 0, 0, brightness));
-
+  if (minutes >= 10 && minutes < 15) {
+    zehn();
+    nach();
   }
 
-  if (farbe == "rot" && onoffState == "ON") {
-    pixels.setPixelColor(n, pixels.Color(0, brightness, 0, 0));
+  if (minutes >= 15 && minutes < 20) {
+    viertl();
   }
 
-  if (farbe == "grün" && onoffState == "ON") {
-    pixels.setPixelColor(n, pixels.Color(brightness, 0, 0, 0));
-  }
-  if (farbe == "blau" && onoffState == "ON") {
-    pixels.setPixelColor(n, pixels.Color(0, 0, brightness, 0));
-  }
-
-  if (farbe == "violett" && onoffState == "ON") {
-    pixels.setPixelColor(n, pixels.Color(153, 50, 204, 0));
+  if (minutes >= 20 && minutes < 25) {
+    zehn();
+    vor();
+    halb();
   }
 
-  if (farbe == "gelb" && onoffState == "ON") {
-    pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0, 0));
+  if (minutes >= 25 && minutes < 30) {
+    fuenf();
+    vor();
+    halb();
   }
 
-
-
-  if (clockstate == input2 || clockstate == "0" + input2) {
-
-    timeout = "OFF";
+  if (minutes >= 30 && minutes < 35) {
+    halb();
   }
 
-  if (clockstate == input1 || clockstate == "0" + input1) {
-    timeout = "ON";
-    onoffState = "ON";
-    if (farbe == "weis") {
-      pixels.setPixelColor(n, pixels.Color(0, 0, 0, brightness));
-    }
-
-    if (farbe == "rot") {
-      pixels.setPixelColor(n, pixels.Color(0, brightness, 0, 0));
-    }
-
-    if (farbe == "grün") {
-      pixels.setPixelColor(n, pixels.Color(brightness, 0, 0, 0));
-    }
-    if (farbe == "blau") {
-      pixels.setPixelColor(n, pixels.Color(0, 0, brightness, 0));
-    }
-
-    if (farbe == "violett") {
-      pixels.setPixelColor(n, pixels.Color(153, 50, 204, 0));
-    }
-
-    if (farbe == "gelb") {
-      pixels.setPixelColor(n, pixels.Color(brightness, brightness, 0, 0));
-    }
-
+  if (minutes >= 35 && minutes < 40) {
+    fuenf();
+    nach();
+    halb();
   }
 
-  if (timeout == "OFF") {
-    onoffState = "OFF";
-    pixels.setPixelColor(n, pixels.Color(0, 0, 0, 0));
+  if (minutes >= 40 && minutes < 45) {
+    zehn();
+    nach();
+    halb();
   }
 
-  if (inputMessage1 == "heart") {
-    pixels.clear();
-    pixels.setPixelColor(104, pixels.Color(0, brightness, 0));
-    pixels.setPixelColor(94, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(92, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(80, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(84, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(74, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(68, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(56, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(64, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(54, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(44, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(43, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(33, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(31, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(23, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(38, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(28, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(26, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(14, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(13, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(18, pixels.Color(0, brightness, 0, 0));
-    pixels.setPixelColor(19, pixels.Color(0, brightness, 0, 0));
+  if (minutes >= 45 && minutes < 50) {
+    dreiviertl();
   }
 
-  /*  if(inputMessage1=="Kati"){
-      pixels.clear();
-      pixels.setPixelColor(0, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(1, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(2, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(3, pixels.Color(0,0,  0, brightness));
-    }
-
-    if(inputMessage1=="Andi"){
-      pixels.clear();
-      pixels.setPixelColor(37, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(38, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(39, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(40, pixels.Color(0,0,  0, brightness));
-    }
-
-    if(inputMessage1=="KatiAndi"){
-      pixels.clear();
-      pixels.setPixelColor(0, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(1, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(2, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(3, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(37, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(38, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(39, pixels.Color(0,0,  0, brightness));
-      pixels.setPixelColor(40, pixels.Color(0,0,  0, brightness));
-    }
-  */
-  if (inputMessage1 == "Wilma") {
-    pixels.clear();
-    pixels.setPixelColor(28, pixels.Color(0, 0, 0, brightness));
-    pixels.setPixelColor(27, pixels.Color(0, 0, 0, brightness));
-    pixels.setPixelColor(26, pixels.Color(0, 0, 0, brightness));
-    pixels.setPixelColor(37, pixels.Color(0, 0, 0, brightness));
-    pixels.setPixelColor(38, pixels.Color(0, 0, 0, brightness));
-
+  if (minutes >= 50 && minutes < 55) {
+    zehn();
+    vor();
   }
 
-  pixels.show();
+  if (minutes >= 55 && minutes < 60) {
+    fuenf();
+    vor();
+  }
+
+  //Stunden-Anzeige wird zugewiesen
+  if (hours == 1) oise();
+  if (hours == 2) zwoie();
+  if (hours == 3) dreie();
+  if (hours == 4) viere();
+  if (hours == 5) fuenfe();
+  if (hours == 6) sechse();
+  if (hours == 7) siebne();
+  if (hours == 8) achte();
+  if (hours == 9) neune();
+  if (hours == 10) zehne();
+  if (hours == 11) elfe();
+  if (hours == 12) zwoelfe();
+  if (hours == 0) zwoelfe();
 }
