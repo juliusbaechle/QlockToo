@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Wire.h>
-#define DS3231_I2C_ADDRESS 0x68 //Adresse zur Kommunikation mit RTC
 
 enum Weekday {
   Sunday,
@@ -12,6 +11,22 @@ enum Weekday {
   Friday,
   Saturday
 };
+
+String toString(Weekday a_weekday) {
+  if (a_weekday == Weekday::Monday)
+    return "Monday";
+  if (a_weekday == Weekday::Tuesday)
+    return "Tuesday";
+  if (a_weekday == Weekday::Wednesday)
+    return "Wednesday";
+  if (a_weekday == Weekday::Thursday)
+    return "Thursday";
+  if (a_weekday == Weekday::Friday)
+    return "Friday";
+  if (a_weekday == Weekday::Saturday)
+    return "Saturday";
+  return "Sunday";
+}
 
 struct Time {
   uint8_t hour;
@@ -53,7 +68,7 @@ public:
   }
 
   void set(Time a_time) {
-    Wire.beginTransmission(DS3231_I2C_ADDRESS);
+    Wire.beginTransmission(m_i2cAdress);
     Wire.write(0);
     Wire.write(decToHex(a_time.second));
     Wire.write(decToHex(a_time.minute));
@@ -63,13 +78,13 @@ public:
   }
 
   Time read() const {
-    Wire.beginTransmission(DS3231_I2C_ADDRESS);
+    Wire.beginTransmission(m_i2cAdress);
     Wire.write(0); // gibt O Uhr vor
     Wire.endTransmission();
 
     //7 Bytes werden vom RTC abgefragt
     Time time;
-    Wire.requestFrom(DS3231_I2C_ADDRESS, 4);
+    Wire.requestFrom(m_i2cAdress, 4);
     time.second = hexToDec(Wire.read() & 0x7f);
     time.minute = hexToDec(Wire.read());
     time.hour = hexToDec(Wire.read() & 0x3f);
@@ -87,5 +102,5 @@ private:
   }
 
 private:
-  uint16_t m_i2cAdress = 0;
+  int m_i2cAdress = 0;
 };

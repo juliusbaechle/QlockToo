@@ -112,8 +112,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Connecting.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="NTP.h" />
+    <ClInclude Include="PixelSet.h" />
     <ClInclude Include="RTC.h" />
     <ClInclude Include="__vm\.Qlocktwo.vsarduino.h" />
   </ItemGroup>

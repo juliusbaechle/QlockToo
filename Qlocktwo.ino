@@ -1,127 +1,16 @@
-#include <SPIFFS.h>
-#include <WiFi.h>
-#include <ESPAsyncWebServer.h>
-#include <AsyncTCP.h>
-#include <NTPClient.h>
-#include <WiFiUdp.h>
 #include <Timer.h>
+#include "RTC.h"
+#include "NTP.h"
+#include "Display.h"
+#include "Server.h"
 
-
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+#define PHOTORESISTOR_PIN 35
+#define DS3231_I2C_ADDRESS 0x68
 
 Timer timer;
-
-AsyncWebServer server(80);
-
-// Benutzername und Passwort für Eingabseite
-const char* http_username = "admin";
-const char* http_password = "admin";
-
-// Name und Passwort des WLAN's
-const char* ssid = "AndroidAP";
-const char* password = "Mi07022018kW";
-
-// Parameter-Identifiers in Website
-const char* PARAM_STARTUP_TIME = "input1";
-const char* PARAM_SHUTDOWN_TIME = "input2";
-const char* PARAM_SLIDER_VALUE = "value";
-const char* PARAM_AUTO_BRIGHTNESS = "state";
-
-// Config set by Server
-String sliderValue = "255";
-String color = "rot";
-String startupTime = "-";
-String shutdownTime = "-";
-String auto_brightness = "1";
-String onOffState="ON";
-
-// TODO: Remove these globals
-bool shutdown = false;
-int brightness = 160;
-
-// Own header files
-#include "RTC.h"
-#include "Display.h"
-#include "Connecting.h"
-
 RTC rtc(DS3231_I2C_ADDRESS);
 
-
-
-void updateBrightness() {
-  if (auto_brightness == "1") {
-    int sensorValue = analogRead(35);
-    Serial.print("PhotoResistor: ");
-    Serial.println(sensorValue);
-
-    int limit = map(sensorValue, 0, 2500, 0, 255);
-    if (sensorValue > 2500)
-      limit = 255;
-    if (limit < brightness - 5)
-      brightness = brightness - 5;
-    if (limit > brightness + 5)
-      brightness = brightness + 5;
-    if (brightness < 30)
-      brightness = 30;
-  }
-
-  if (auto_brightness == "0") {
-    brightness = sliderValue.toInt();
-  }
-
-  Serial.print("brightness = "); //Ausgabe am Serial-Monitor: Das Wort „Sensorwert: „
-  Serial.println(brightness);
-}
-
-void printWeekday(int dayOfWeek) {
-  switch (dayOfWeek) {
-  case 0:
-    Serial.println("Sunday");
-    break;
-  case 1:
-    Serial.println("Monday");
-    break;
-  case 2:
-    Serial.println("Tuesday");
-    break;
-  case 3:
-    Serial.println("Wednesday");
-    break;
-  case 4:
-    Serial.println("Thursday");
-    break;
-  case 5:
-    Serial.println("Friday");
-    break;
-  case 6:
-    Serial.println("Saturday");
-    break;
-  }
-}
-
-void printStatus(Time a_time) {  
-  Serial.print("Current-Time: ");
-  Serial.println(toString(a_time));
-  Serial.print("Startup-Time: ");
-  Serial.println(startupTime + ".00");
-  Serial.print("Shutdown-Time: ");
-  Serial.println(shutdownTime + ".00");
-  Serial.print("sliderValue:");
-  Serial.println(sliderValue);
-  printWeekday(a_time.weekday);
-}
-
-void setup() {
-  Serial.begin(115200);
-  timer.every(1000, onTimeout);
-  connectWifi();
-  updateRTC(rtc);
-  setupServer();
-  pixels.show();
-}
-
-void updateShutdown(Time a_time) {
+void updateNightMode(Time a_time) {
   String currentTime = toString(a_time);
   if (currentTime == startupTime || currentTime == "0" + startupTime)
     shutdown = false;
@@ -129,14 +18,76 @@ void updateShutdown(Time a_time) {
     shutdown = true;
 }
 
+uint8_t getBrightness() {
+  if (shutdown)
+    return 0;
+
+  if (auto_brightness == "0")
+    return (uint8_t) sliderValue.toInt();
+
+  if (auto_brightness == "1") {
+    static uint8_t value = 160;
+
+    int sensorValue = analogRead(PHOTORESISTOR_PIN);
+    Serial.print("PhotoResistor: ");
+    Serial.println(sensorValue);
+
+    int currentLimit = map(sensorValue, 0, 2500, 0, 255);
+    if (currentLimit > 2500)
+      value = 255;
+    if (value < value - 5)
+      value -= 5;
+    if (value > value + 5)
+      value += 5;
+    if (value < 30)
+      value = 30;
+    return value;
+  }
+}
+
+uint32_t getColor(uint8_t a_brightness) {
+  if (color == "rot")
+    return Adafruit_NeoPixel::Color(0, a_brightness, 0, 0);
+  if (color == "grün")
+    return Adafruit_NeoPixel::Color(a_brightness, 0, 0, 0);
+  if (color == "blau")
+    return Adafruit_NeoPixel::Color(0, 0, a_brightness, 0);
+  if (color == "violett")
+    return Adafruit_NeoPixel::Color(153, 50, 204, 0);
+  if (color == "gelb")
+    return Adafruit_NeoPixel::Color(a_brightness, a_brightness, 0, 0);
+  return Adafruit_NeoPixel::Color(0, 0, 0, a_brightness);
+}
+
+void printStatus(Time a_time) {  
+  Serial.print("Current-Time: ");
+  Serial.println(toString(a_time));
+  Serial.print("Startup-Time: ");
+  Serial.println(startupTime);
+  Serial.print("Shutdown-Time: ");
+  Serial.println(shutdownTime);
+  Serial.print("Slider-Brightness: ");
+  Serial.println(sliderValue);
+  Serial.print("Weekday: ");
+  Serial.println(toString(a_time.weekday));
+}
+
+void setup() {
+  Serial.begin(115200);
+  timer.every(1000, onTimeout);
+  connectWiFi();
+  updateRTC(rtc);
+  setupServer();
+  pixels.show();
+}
+
 void onTimeout() {
   Time time = rtc.read();
   printStatus(time);
-  updateBrightness();
-  updateShutdown(time);
-  displayTime(time);
+  updateNightMode(time);
+  displayTime(time, getColor(getBrightness()));
   if (time.minute == 20 && time.second == 0)
-    connectWifi();
+    connectWiFi();
   if (time.weekday == Sunday && time.hour == 5 && time.minute == 0 && time.second == 30)
     updateRTC(rtc);
 }
