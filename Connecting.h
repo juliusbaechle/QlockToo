@@ -204,9 +204,17 @@ bool connectWifi() {
   return true;
 }
 
-void updateRTC() {
-  if (WiFi.status() != WL_CONNECTED) return;
-  timeClient.update();
-  setDS3231time(timeClient.getSeconds(), timeClient.getMinutes(), timeClient.getHours(), timeClient.getDay());
-  Serial.print("wurde geupdatet");
+Time readTimeNTP() {
+  Time time;
+  time.hour = (uint8_t)timeClient.getHours();
+  time.minute = (uint8_t)timeClient.getMinutes();
+  time.second = (uint8_t)timeClient.getSeconds();
+  time.weekday = (Weekday)timeClient.getDay();
+  return time;
+}
+
+void updateRTC(RTC& rtc) {
+  if (!timeClient.update()) return;
+  rtc.set(readTimeNTP());
+  Serial.print("sucessfully read time from ntp server");
 }

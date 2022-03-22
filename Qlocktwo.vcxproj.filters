@@ -5,8 +5,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Qlocktwo.vsarduino.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Quelle.cpp" />
+    <ClInclude Include="RTC.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="Connecting.h" />
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@
 #include <WiFiUdp.h>
 #include <Timer.h>
 
+
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
 
@@ -36,7 +37,6 @@ String auto_brightness = "1";
 String onOffState="ON";
 
 // TODO: Remove these globals
-String currentTime;
 bool shutdown = false;
 int brightness = 160;
 
@@ -44,6 +44,10 @@ int brightness = 160;
 #include "RTC.h"
 #include "Display.h"
 #include "Connecting.h"
+
+RTC rtc(DS3231_I2C_ADDRESS);
+
+
 
 void updateBrightness() {
   if (auto_brightness == "1") {
@@ -70,7 +74,7 @@ void updateBrightness() {
   Serial.println(brightness);
 }
 
-void printDayOfWeek(int dayOfWeek) {
+void printWeekday(int dayOfWeek) {
   switch (dayOfWeek) {
   case 0:
     Serial.println("Sunday");
@@ -96,61 +100,45 @@ void printDayOfWeek(int dayOfWeek) {
   }
 }
 
-void printStatus(int hour, int minute, int second, int dayOfWeek) {
-  String minuten;
-  String stunden;
-  String sekunden;
-
-  if (minute < 10) {
-    minuten = "0" + String(minute);
-  } else {
-    minuten = String(minute);
-  }
-
-  if (hour < 10) {
-    stunden = "0" + String(hour);
-  } else {
-    stunden = String(hour);
-  }
-
-  if (second < 10) {
-    sekunden = "0" + String(second);
-  } else {
-    sekunden = String(second);
-  }
-
-  currentTime = stunden + "." + minuten + "." + sekunden;
+void printStatus(Time a_time) {  
   Serial.print("Current-Time: ");
-  Serial.println(currentTime);
+  Serial.println(toString(a_time));
   Serial.print("Startup-Time: ");
   Serial.println(startupTime + ".00");
   Serial.print("Shutdown-Time: ");
   Serial.println(shutdownTime + ".00");
   Serial.print("sliderValue:");
   Serial.println(sliderValue);
-  printDayOfWeek(dayOfWeek);
+  printWeekday(a_time.weekday);
 }
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin();
   timer.every(1000, onTimeout);
   connectWifi();
-  updateRTC();
+  updateRTC(rtc);
   setupServer();
   pixels.show();
 }
 
+void updateShutdown(Time a_time) {
+  String currentTime = toString(a_time);
+  if (currentTime == startupTime || currentTime == "0" + startupTime)
+    shutdown = false;
+  if (currentTime == shutdownTime || currentTime == "0" + shutdownTime)
+    shutdown = true;
+}
+
 void onTimeout() {
-  byte second, minute, hour, dayOfWeek;  
-  readDS3231time(&second, &minute, &hour, &dayOfWeek);
-  printStatus(hour, minute, second, dayOfWeek);
+  Time time = rtc.read();
+  printStatus(time);
   updateBrightness();
-  displayTime(hour, minute, second);
-  if (minute == 20 && second == 0)
+  updateShutdown(time);
+  displayTime(time);
+  if (time.minute == 20 && time.second == 0)
     connectWifi();
-  if (dayOfWeek == Sunday && hour == 5 && minute == 0 && second == 30)
-    updateRTC();
+  if (time.weekday == Sunday && time.hour == 5 && time.minute == 0 && time.second == 30)
+    updateRTC(rtc);
 }
 
 void loop(){
