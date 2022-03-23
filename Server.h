@@ -10,18 +10,12 @@ AsyncWebServer server(80);
 const char* http_username = "admin";
 const char* http_password = "admin";
 
-// Parameter-Identifiers in Website
-const char* PARAM_STARTUP_TIME = "input1";
-const char* PARAM_SHUTDOWN_TIME = "input2";
-const char* PARAM_SLIDER_VALUE = "value";
-const char* PARAM_AUTO_BRIGHTNESS = "state";
-
 // Config set by Server
-String sliderValue = "255";
 String color = "rot";
-String startupTime = "-";
-String shutdownTime = "-";
-String auto_brightness = "1";
+Time startupTime;
+Time shutdownTime;
+bool auto_brightness = true;
+uint8_t manual_brightness = 255;
 bool shutdown = false;
 
 //Website nach Bet�tigung des Logouts
@@ -39,152 +33,129 @@ const char logout_html[] PROGMEM = R"rawliteral(
 
 // Replaces placeholder with LED state /Slidervalue value
 String getValue(const String& var) {
-  if(var == "GPIO_STATE")
+  if(var == "STATE")
     return shutdown ? "OFF" : "ON";
-  if(var == "An_STATE")     
-    return startupTime;
-  if(var == "Aus_STATE")    
-    return shutdownTime;
-  if(var == "SLIDERVALUE") 
-    return sliderValue;
-  return shutdown ? "OFF" : "ON", startupTime, sliderValue;
+  if (var == "STARTUP_TIME")
+    return startupTime.toMinString();
+  if (var == "SHUTDOWN_TIME")
+    return shutdownTime.toMinString();
+  if(var == "MANUAL_BRIGHTNESS") 
+    return String((int) manual_brightness);
+  if (var == "AUTO_BRIGHTNESS")
+    return auto_brightness ? "checked" : "";
+  return "INVALID";
+}
+
+bool isDayTime(Time a_time) {
+  if (startupTime < shutdownTime) {
+    return startupTime < a_time && a_time < shutdownTime;
+  } else {
+    return startupTime < a_time || a_time < shutdownTime;
+  }
+}
+
+bool updateNightTime(Time a_time) {
+  if (a_time == shutdownTime)
+    shutdown = true;
+  if (a_time == startupTime)
+    shutdown = false;
 }
 
 void setupServer() {
   if (!SPIFFS.begin(true))
     Serial.println("An Error has occurred while mounting SPIFFS");
   
-  // Route for root / web page
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     if(!request->authenticate(http_username, http_password))
       return request->requestAuthentication();
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
-  
-  // Route to load style.css file
-  server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
-    Serial.println("requested /style.css");
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
+
+  server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(SPIFFS, "/style.css", "text/css");
   });
 
-  server.on("/led2on", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
+  server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request) {
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
-  server.on("/led2off", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
+  server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request) {
     shutdown = true;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
-  server.on("/white", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-    color="weis";  
+  server.on("/white", HTTP_GET, [](AsyncWebServerRequest *request) {
+    color="white";  
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
   
-  server.on("/red", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-    color="rot"; 
+  server.on("/red", HTTP_GET, [](AsyncWebServerRequest *request) {
+    color="red"; 
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
-  server.on("/gr�n", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-    color="gr�n"; 
+  server.on("/green", HTTP_GET, [](AsyncWebServerRequest *request) {
+    color="green"; 
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
-  server.on("/blau", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-    color="blau"; 
+  server.on("/blue", HTTP_GET, [](AsyncWebServerRequest *request) {
+    color="blue"; 
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
   
-  server.on("/violett", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-    color="violett";
+  server.on("/purple", HTTP_GET, [](AsyncWebServerRequest *request) {
+    color="purple";
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
   
-  server.on("/gelb", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-    color="gelb"; 
+  server.on("/yellow", HTTP_GET, [](AsyncWebServerRequest *request) {
+    color="yellow"; 
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
-  // Send a GET request to <ESP_IP>/get?input1=<inputMessage>
-  server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
-    Serial.println("requested /get");
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-   
-    // GET input1 value on <ESP_IP>/get?input1=<inputMessage>
-    if (request->hasParam(PARAM_STARTUP_TIME)) {
-      startupTime = request->getParam(PARAM_STARTUP_TIME)->value();
-    }
-
-    // GET input2 value on <ESP_IP>/get?input2=<inputMessage>
-    if (request->hasParam(PARAM_SHUTDOWN_TIME)) {
-      shutdownTime = request->getParam(PARAM_SHUTDOWN_TIME)->value();
-    } else {
-      startupTime = "No message sent";
-    }
-
-    server.on("/button9", HTTP_GET, [](AsyncWebServerRequest *request){
-      if(!request->authenticate(http_username, http_password))
-        return request->requestAuthentication();
-      shutdown = false;
-      startupTime="Reset";
-      shutdownTime="Reset";
-      pixels.clear();
-      request->send(SPIFFS, "/index.html", String(), false, getValue);
-    });
-
+  server.on("/startup_time", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("value")) {
+      String time = request->getParam("value")->value();
+      startupTime = Time::parseMinString(time);
+      shutdown = !isDayTime(rtc.read());
+    }    
     request->send(SPIFFS, "/index.html", String(), false, getValue);
-  }); 
+  });
 
-  server.on("/slider", HTTP_GET, [] (AsyncWebServerRequest *request) {
-    // GET input1 value on <ESP_IP>/slider?value=<inputMessage>
-    if(!request->authenticate(http_username, http_password))
-      return request->requestAuthentication();
-
-    String inputMessage;
-    if (request->hasParam(PARAM_SLIDER_VALUE)) {
-      inputMessage = request->getParam(PARAM_SLIDER_VALUE)->value();
-      sliderValue = inputMessage;
+  server.on("/shutdown_time", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("value")) {
+      String time = request->getParam("value")->value();
+      shutdownTime = Time::parseMinString(time);
+      shutdown = !isDayTime(rtc.read());
     }
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
-  server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *request) {
-    Serial.println("requested /update");
-    // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
-    if (request->hasParam(PARAM_AUTO_BRIGHTNESS))
-      auto_brightness = request->getParam(PARAM_AUTO_BRIGHTNESS)->value();
-    else
-      auto_brightness= "No message sent";
-    Serial.print("GPIO: ");
-    Serial.println(auto_brightness);
+  server.on("/reset", HTTP_GET, [](AsyncWebServerRequest *request) {
+    shutdown = false;
+    startupTime = Time();
+    shutdownTime = Time();
+    color = "white";
+    request->send(SPIFFS, "/index.html", String(), false, getValue);
+  });
 
+  server.on("/manual_brightness", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    if (request->hasParam("value"))
+      manual_brightness = (uint8_t) request->getParam("value")->value().toInt();
+    request->send(SPIFFS, "/index.html", String(), false, getValue);
+  });
+
+  server.on("/auto_brightness", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    if (request->hasParam("value"))
+      auto_brightness = request->getParam("value")->value() == "ON";
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
@@ -197,7 +168,6 @@ void setupServer() {
     request->send_P(200, "text/html", logout_html, getValue);
   });
 
-  // Start server
   server.begin();
 }
 

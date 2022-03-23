@@ -11,7 +11,6 @@ Time readTimeNTP() {
   time.hour = (uint8_t)timeClient.getHours();
   time.minute = (uint8_t)timeClient.getMinutes();
   time.second = (uint8_t)timeClient.getSeconds();
-  time.weekday = (Weekday)timeClient.getDay();
   return time;
 }
 

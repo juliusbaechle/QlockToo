@@ -6,11 +6,6 @@
     text-align: center;
 }
 
-
-#footer {
-    text-align: center;
-}
-
 #main {
     text-align: center;
 }
@@ -22,10 +17,9 @@
     font-weight: bold
 }
 
-.button {
+
+#statePanel button {
     display: inline-block;
-    background-color: #b30000;
-    //red color border: none;
     border-radius: 40px;
     color: white;
     padding: 16px 40px;
@@ -35,14 +29,16 @@
     cursor: pointer;
 }
 
-.button2 {
-    background-color: #364cf4;
-    margin-bottom: 20px;
-    //blue color 
-   
+#btnOn {	
+    background-color: #b30000;
 }
-.button3 {
-    background-color: red;
+
+#btnOff {
+    background-color: #364cf4;
+}
+
+
+#colorPanel button {
     color: black;
     font-size: 32px;
     height: 60px;
@@ -51,44 +47,35 @@
     font-weight: bold //blue color
 }
 
-.button4 {
-    background-color: green;
-   
-    //blue color
-}
-
-.button5 {
-    background-color: blue;
-    
-    //blue color
-}
-
-.button6 {
-    background-color: mediumvioletred;
-    
-    //blue color
-}
-
-.button7 {
+#btnWhite{
     background-color: gray;
-    //blue color
 }
 
-.button8 {
+#btnRed {
+	background-color: red;
+}
+
+#btnGreen {
+    background-color: green;
+}
+
+#btnBlue {
+    background-color: blue;
+}
+
+#btnPurple {
+    background-color: mediumvioletred;
+}
+
+#btnYellow {
     background-color: yellow;
-    color: black;
-    margin-bottom: 20px;
-    //blue color
 }
 
-.button9 {
+
+#btnReset {
     color: black;
     height: 20px;
     width: 60px;
     border-radius: 10px;
-    text-align: center;
-}
-
-.eingabe {
     text-align: center;
 }

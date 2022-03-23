@@ -1,108 +1,98 @@
-﻿<!DOCTYPE html>
-
-
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>qlocktwo</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viweport" content="width=device-width, initial-scale=1" >
-</head>
-<body>
-    <div id="top">
+	<head>
+		<meta charset="utf-8" />
+		<title>QlockTwo</title>
+		<link rel="stylesheet" href="style.css">
+		<meta name="viweport" content="width=device-width, initial-scale=1" >
+	</head>
+	<body>
+		<div id="top">
+			<div id="logo-name">QlockTwo Steuerung</div>
+		</div>
+		
+		<div id="main">
+			<div id="statePanel">
+				<p>QlockTwo ist: <strong> %STATE%</strong></p>
+				<p>
+					<a href="/on"><button id="btnOn">ON</button></a>
+					<a href="/off"><button id="btnOff">OFF</button></a>
+				</p>
+			</div> <br>
 
-        <div id="logo-name">Qlock Two Steuerung</div>
-    </div>
-    <div id="main">
-        <p>QlockTwo ist: <strong> %GPIO_STATE%</strong></p>
-        <p>
-            <a href="/led2on"><button class="button">ON</button></a>
-            <a href="/led2off"><button class="button button2">OFF</button></a>
-        </p>
+			<div id="colorPanel">
+				<p>In welcher Farbe soll die Uhr leuchten: </p>
+				<p>
+					<a href="/white"><button id="btnWhite">weiß</button></a>
+					<a href="/red"><button id="btnRed">rot</button></a>
+					<a href="/green"><button id="btnGreen">grün</button></a>
+				</p>
+				<p>
+					<a href="/blue"><button id="btnBlue">blau</button></a>
+					<a href="/purple"><button id="btnPurple">violett</button></a>
+					<a href="/yellow"><button id="btnYellow">gelb</button></a>
+				</p>
+				<input type="color" id="inpColor" value=%COLOR%>
+			</div> <br>		
 
-        <p>In welcher Farbe soll die Uhr leuchten: </p>
-        <p>
-            <a href="/white"><button class="button3 button7">weiß</button></a>
+			<p>Helligkeitssteuerung: </p>
+			Automatic: <label class="switch"><input type="checkbox" onchange="toggleAutoBrightness(this)" id="cbxAutoBrightness" %AUTO_BRIGHTNESS%><span id="spanAutoBrightness"></span></label>
+			<p><input type="range" onchange="updateManualBrightness(this)" id="sldManualBrightness" min="1" max="255" value=%MANUAL_BRIGHTNESS% step="1"> <span id="spanManualBrightness">%MANUAL_BRIGHTNESS%</span></p> <br>
 
-            <a href="/red"><button class="button3">rot</button></a>
+			<p>Zeitsteuerung: </p>
+			<p>Aus um: <strong> %SHUTDOWN_TIME%</strong> &emsp; An um: <strong> %STARTUP_TIME%</strong></p>
+			<p>
+				Ausschalten: <input type="time" id="inpShutdownTime">
+				<button onclick="sendShutdownTime()">Send</button>
+			</p>
+			<p>
+				Einschalten: <input type="time" id="inpStartupTime">
+				<button onclick="sendStartupTime()">Send</button>
+			</p>
 
-            <a href="/grün"><button class="button3 button4">grün</button></a>
-        </p>
-        <p>
-            <a href="/blau"><button class="button3 button5">blau</button></a>
-            <a href="/violett"><button class="button3 button6">violett</button></a>
-            <a href="/gelb"><button class="button3 button8">gelb</button></a>
-        </p>
+			<p>	<a href="/reset"><button id="btnReset">Reset</button></a> </p>
+			<p> <button onclick="logout()" id="btnLogout">Logout</button> </p>
+		</div>
 
-        <p>
-            Helligkeitssteuerung:
-            
-        </p>
-        Automatic: <label class="switch"><input type="checkbox" onchange="toggleCheckbox(this)" id="2" checked><span class="slider"></span></label>
-        <p><input type="range" onchange="updateSliderPWM(this)" id="pwmSlider" min="1" max="255" value=%SLIDERVALUE% step="1" class="slider"> <span id="textSliderValue">%SLIDERVALUE%</span></p> <br>
+		<script>
+			function updateManualBrightness(slider) {
+				document.getElementById("spanManualBrightness").innerHTML = slider.value;
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/manual_brightness?value=" + slider.value, true);
+				xhr.send();
+			}
 
+			function toggleAutoBrightness(element) {
+				var xhr = new XMLHttpRequest();
+				if (element.checked) { 
+					xhr.open("GET", "/auto_brightness?value=ON", true); 
+				} else { 
+					xhr.open("GET", "/auto_brightness?value=OFF", true); 
+				}
+				xhr.send();
+			}
+		   
+			function logout() {
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/logout", true);
+				xhr.send();
+				setTimeout(function () { window.open("/logged-out", "_self"); }, 1000);
+			}
 
+			function sendShutdownTime() {
+				var value = document.getElementById("inpShutdownTime").value;
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/shutdown_time?value=" + value, true);
+				xhr.send();
+			}
 
-        <p>
-            Zeitsteuerung:
-        </p>
-        <p>Aus um: <strong> %Aus_STATE%</strong> &emsp; An um: <strong> %An_STATE%</strong></p>
-        <form action="/get">
-            Ausschalten: <input type="text" name="input2">
-            <input type="submit" value="Submit">
-        </form><br>
-
-        <form action="/get">
-            Einschalten: <input type="text" name="input1">
-            <input type="submit" value="Submit">
-        </form>
-
-
-        <p>
-            <a href="/button9"><button class="button9">Reset</button></a>
-        </p>
-        <p>
-            <button onclick="logoutButton()">Logout</button>
-
-        </p>
-    </div>
-
-
-    <div id="footer">
-      
-    </div>
-
-    <script>
-        function updateSliderPWM(element) {
-            var sliderValue = document.getElementById("pwmSlider").value;
-            document.getElementById("textSliderValue").innerHTML = sliderValue;
-            console.log(sliderValue);
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/slider?value=" + sliderValue, true);
-            xhr.send();
-        }
-
-        function toggleCheckbox(element) {
-            var xhr = new XMLHttpRequest();
-            if (element.checked) { xhr.open("GET", "/update?output=" + element.id + "&state=1", true); }
-            else { xhr.open("GET", "/update?output=" + element.id + "&state=0", true); }
-            xhr.send();
-        }
-       
-        function logoutButton() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/logout", true);
-            xhr.send();
-            setTimeout(function () { window.open("/logged-out", "_self"); }, 1000);
-
-
-        }
-
-
-
-    </script>
-
-</body>
+			function sendStartupTime() {
+				var value = document.getElementById("inpStartupTime").value;
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/startup_time?value=" + value, true);
+				xhr.send();
+			}
+		</script>
+	</body>
 </html>
-
