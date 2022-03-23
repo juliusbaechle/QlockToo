@@ -45,14 +45,13 @@ int clearVal = 0; //Variable zum aktualisieren der Uhr
 
 
 // Benutzername und Passwort des WLANs
-//const char* ssid = "FRITZBox-Str";
-//const char* password = "Tss112009bdStMCiGD!";
+//const char* ssid = "WLAN-H9YLUN";
+//const char* password = "2054471066375812";
 
-const char* ssid = "FRITZ!Box7530TK";
-const char* password = "05390568606192052256";
 
-//const char* ssid = "StSt-Wlan";
-//const char* password = "Ias0116adUU!";
+
+const char* ssid = "FRITZ! Box 7412 Repeater";
+const char* password = "54658123531998163263";
 
 //const char* ssid = "FRITZ!Box 7530 BV";
 //const char* password = "50115224757008808357";
@@ -60,15 +59,14 @@ const char* password = "05390568606192052256";
 //const char* ssid = "FRITZ!Box 7412";
 //const char* password = "50260940954024060443";
 
-//const char* ssid = "Zweiter Stock";
-//const char* password = "LauraSvenjaFabianThomas";
+
 
 
 //Variablen für Helligkeitssteuerung
 int brightness=160;
 String sliderValue="255";
 
-String farbe="weis";
+String farbe="rot";
 
 String onoffState="ON";
 String on_State="-";
@@ -211,7 +209,9 @@ void setup(){
       break;
     }
   }
-
+  if(WiFi.status() == WL_CONNECTED){ 
+      count1=0;   
+    }
   timeClient.begin();
   timeClient.update();
 
@@ -456,17 +456,23 @@ sensorWert = analogRead(eingang); //Die Spannung an dem Fotowiderstand auslesen 
 Serial.print("Sensorwert = " ); //Ausgabe am Serial-Monitor: Das Wort „Sensorwert: „
 Serial.println(sensorWert); //Ausgabe am Serial-Monitor. Mit dem Befehl Serial.print wird der Sensorwert des Fotowiderstandes in Form einer Zahl zwischen 0 und 1023 an den serial monitor gesendet.
 output=map(sensorWert,0,2500, 0,255);
+Serial.print("brightness = " ); //Ausgabe am Serial-Monitor: Das Wort „Sensorwert: „
+Serial.println(brightness);
 
 if (sensorWert>2500){
   output=255;
 }
 
 
-if(output<brightness-10){
+if(output<brightness-5){
   brightness=brightness-5;
 }
-if(output>brightness+10){
+if(output>brightness+5){
   brightness=brightness+5;
+}
+
+if(brightness<30){
+  brightness=30;
 }
 
 //sliderValue=String(brightness);
@@ -475,6 +481,9 @@ if(automatic=="0"){
 brightness=sliderValue.toInt();
 
 }
+
+Serial.print("brightness = " ); //Ausgabe am Serial-Monitor: Das Wort „Sensorwert: „
+Serial.println(brightness);
 
 
 
@@ -508,16 +517,12 @@ brightness=sliderValue.toInt();
   leuchten(7);
   leuchten(6);
   leuchten(5);
- 
+  leuchten(4);
 
  // Serial.println(minutes);
 
   //Zeitabschnitte zum Anzeigen von viertl, halb, dreiviertl, zehn, fünf, vor und nach werden definiert
   if (minutes >= 15 && minutes < 20) viertl();
-
-  if (minutes >= 0 && minutes < 5) {
-    uhr();
-  }
 
   if (minutes >= 10 && minutes < 15) {
     zehn();
@@ -568,15 +573,7 @@ brightness=sliderValue.toInt();
 
   //Stunden-Anzeige wird zugewiesen
   if (hours > 12) hours = hours - 12;
-  if (hours == 1){
-    if (minutes >= 0 && minutes < 5) {
-     ein();
-    }
-    else {
-     oise();
-    }
-  }
-
+  if (hours == 1) oise();
   if (hours == 2) zwoie();
   if (hours == 3) dreie();
   if (hours == 4) viere();
@@ -624,10 +621,8 @@ brightness=sliderValue.toInt();
     break;
   }
 
-
-
 //WLAN Verbindung herstellen
-  if( minute==0 && second==0) {
+  if( minute==20 && second==0) {
     WiFi.begin(ssid, password);
     while ( WiFi.status() != WL_CONNECTED ) {
     count1= ++count1;
@@ -644,14 +639,31 @@ brightness=sliderValue.toInt();
     }
     
   }
-  }  
+  }
+
+  
 
 //Update RTC Sonntags um 5 Uhr
-  if(dayOfWeek==0 && hour==5 && minute==0 && second==30 && WiFi.status() == WL_CONNECTED ) {
-      timeClient.update();
-      setDS3231time(timeClient.getSeconds(),timeClient.getMinutes(),timeClient.getHours(), timeClient.getDay());
-      Serial.print("wurde geupdatet");
+  if(dayOfWeek==0 && hour==5 && minute==0 && second==30) {
+    while ( WiFi.status() != WL_CONNECTED ) {
+    count1= ++count1;
+    delay ( 500 );
+    Serial.print ( "." );
+    Serial.print ( count1 );
+    if (count1==15){
+      count1=0;
+      break;
+    } 
+    if(WiFi.status() == WL_CONNECTED){ 
+      count1=0;   
+    }
+    timeClient.update();
+    setDS3231time(timeClient.getSeconds(),timeClient.getMinutes(),timeClient.getHours(), timeClient.getDay());
+    Serial.print("wurde geupdatet");
   }
+   
+  }
+  
 
 
 }
@@ -660,42 +672,40 @@ brightness=sliderValue.toInt();
 void loop(){
 t.update();
 }
-
 void vor() {
-  leuchten(33);
-  leuchten(34);
-  leuchten(35);
-}
-
-void nach() {
-  leuchten(40);
   leuchten(41);
   leuchten(42);
   leuchten(43);
 }
 
+void nach() {
+  leuchten(33);
+  leuchten(34);
+  leuchten(35);
+  leuchten(36);
+}
+
 void fuenf() {
-  leuchten(3);
-  leuchten(2);
-  leuchten(1);
-  leuchten(0);
-}
-
-void zehn() {
-  leuchten(11);
-  leuchten(12);
-  leuchten(13);
-  leuchten(14);
-}
-
-void viertl() {
-  leuchten(28);
-  leuchten(27);
-  leuchten(26);
   leuchten(25);
   leuchten(24);
   leuchten(23);
   leuchten(22);
+}
+
+void zehn() {
+  leuchten(32);
+  leuchten(31);
+  leuchten(30);
+  leuchten(29);
+}
+
+void viertl() {
+  leuchten(15);
+  leuchten(16);
+  leuchten(17);
+  leuchten(18);
+  leuchten(19);
+  leuchten(20);
 }
 
 void halb() {
@@ -706,17 +716,16 @@ void halb() {
 }
 
 void dreiviertl() {
-  leuchten(32);
-  leuchten(31);
-  leuchten(30);
-  leuchten(29);
-  leuchten(28);
-  leuchten(27);
-  leuchten(26);
-  leuchten(25);
-  leuchten(24);
-  leuchten(23);
-  leuchten(22);
+  leuchten(11);
+  leuchten(12);
+  leuchten(13);
+  leuchten(14);
+  leuchten(15);
+  leuchten(16);
+  leuchten(17);
+  leuchten(18);
+  leuchten(19);
+  leuchten(20);
 }
 
 void oise() {
@@ -726,42 +735,15 @@ void oise() {
   leuchten(58);
 }
 
-void ein() {
-  leuchten(55);
-  leuchten(56);
-  leuchten(57);
-}
-
-
 void zwoie() {
-  leuchten(62);
-  leuchten(63);
-  leuchten(64);
-  leuchten(65);
-}
-
-void dreie() {
   leuchten(76);
   leuchten(75);
   leuchten(74);
   leuchten(73);
+  leuchten(72);
 }
 
-void viere() {
-  leuchten(69);
-  leuchten(68);
-  leuchten(67);
-  leuchten(66);
-}
-
-void fuenfe() {
-  leuchten(47);
-  leuchten(46);
-  leuchten(45);
-  leuchten(44);
-}
-
-void sechse() {
+void dreie() {
   leuchten(77);
   leuchten(78);
   leuchten(79);
@@ -769,57 +751,79 @@ void sechse() {
   leuchten(81);
 }
 
-void siebne() {
-  leuchten(98);
-  leuchten(97);
-  leuchten(96);
-  leuchten(95);
-  leuchten(94);
-  leuchten(93);
-}
-
-void achte() {
-  leuchten(84);
-  leuchten(85);
-  leuchten(86);
-  leuchten(87);
-}
-
-void neune() {
-  leuchten(102);
-  leuchten(103);
-  leuchten(104);
+void viere() {
   leuchten(105);
-}
-
-void zehne() {
-  leuchten(99);
-  leuchten(100);
-  leuchten(101);
-  leuchten(102);
-}
-
-void elfe() {
-  leuchten(49);
-  leuchten(48);
-  leuchten(47);
-}
-
-void zwoelfe() {
-  leuchten(92);
-  leuchten(91);
-  leuchten(90);
-  leuchten(89);
-  leuchten(88);
-}
-
-void uhr(){
+  leuchten(106);
   leuchten(107);
   leuchten(108);
   leuchten(109);
 }
 
+void fuenfe() {
+  leuchten(49);
+  leuchten(48);
+  leuchten(47);
+  leuchten(46);
+  leuchten(45);
+}
 
+void sechse() {
+  leuchten(57);
+  leuchten(58);
+  leuchten(59);
+  leuchten(60);
+  leuchten(61);
+  leuchten(62);
+}
+
+void siebne() {
+  leuchten(99);
+  leuchten(100);
+  leuchten(101);
+  leuchten(102);
+  leuchten(103);
+  leuchten(104);
+}
+
+void achte() {
+  leuchten(71);
+  leuchten(70);
+  leuchten(69);
+  leuchten(68);
+  leuchten(67);
+}
+
+void neune() {
+  leuchten(95);
+  leuchten(94);
+  leuchten(93);
+  leuchten(92);
+  leuchten(91);
+}
+
+void zehne() {
+  leuchten(98);
+  leuchten(97);
+  leuchten(96);
+  leuchten(95);
+  leuchten(94);
+}
+
+void elfe() {
+  leuchten(62);
+  leuchten(63);
+  leuchten(64);
+  leuchten(65);
+}
+
+void zwoelfe() {
+  leuchten(82);
+  leuchten(83);
+  leuchten(84);
+  leuchten(85);
+  leuchten(86);
+  leuchten(87);
+}
 
 void leuchten(int n) {
 if(onoffState=="ON"){
@@ -946,22 +950,43 @@ if(inputMessage1=="heart"){
     pixels.setPixelColor(19, pixels.Color(0, brightness,  0,0));
   }
 
-
-if(inputMessage1=="Nini"){
+/*  if(inputMessage1=="Kati"){
     pixels.clear();
-    pixels.setPixelColor(36, pixels.Color(0,brightness,  0));
-    pixels.setPixelColor(37, pixels.Color(0, brightness,  0, 0));
-    pixels.setPixelColor(38, pixels.Color(0, brightness,  0, 0));
-    pixels.setPixelColor(39, pixels.Color(0, brightness,  0,0));
-    pixels.setPixelColor(59, pixels.Color(0, brightness,  0,0));
-    pixels.setPixelColor(60, pixels.Color(0, brightness,  0,0));
-    pixels.setPixelColor(61, pixels.Color(0, brightness,  0,0));
-    pixels.setPixelColor(73, pixels.Color(0, brightness,  0,0));
-    pixels.setPixelColor(72, pixels.Color(0, brightness,  0,0));
-
-
+    pixels.setPixelColor(0, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(1, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(2, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(3, pixels.Color(0,0,  0, brightness));
   }
 
+  if(inputMessage1=="Andi"){
+    pixels.clear();
+    pixels.setPixelColor(37, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(38, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(39, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(40, pixels.Color(0,0,  0, brightness));
+  }
+
+  if(inputMessage1=="KatiAndi"){
+    pixels.clear();
+    pixels.setPixelColor(0, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(1, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(2, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(3, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(37, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(38, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(39, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(40, pixels.Color(0,0,  0, brightness));
+  }
+*/
+  if(inputMessage1=="Wilma"){
+    pixels.clear();
+    pixels.setPixelColor(28, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(27, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(26, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(37, pixels.Color(0,0,  0, brightness));
+    pixels.setPixelColor(38, pixels.Color(0,0,  0, brightness));
+
+  }
 
  pixels.show(); 
 }

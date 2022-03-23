@@ -83,7 +83,7 @@ void setup() {
 
 void onTimeout() {
   Time time = rtc.read();
-  printStatus(time);
+  // printStatus(time);
   updateNightMode(time);
   displayTime(time, getColor(getBrightness()));
   if (time.minute == 20 && time.second == 0)

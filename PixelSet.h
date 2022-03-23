@@ -10,12 +10,14 @@ public:
   set(const std::initializer_list<T>& a_initializer)
     : m_set(a_initializer) {}
 
-  set<T> operator+= (const set<T>& a_set) {
+  set<T>& operator+= (const set<T>& a_set) {
     m_set.insert(a_set.m_set.begin(), a_set.m_set.end());
+    return *this;
   }
 
-  set<T> operator+= (const T& a_item) {
+  set<T>& operator+= (const T& a_item) {
     m_set.insert(a_item);
+    return *this;
   }
 
   set<T> operator+ (const set<T>& a_set) const {

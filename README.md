@@ -4,7 +4,8 @@ Clone of Clocktwo using Arduino
  Setup
 --------------------------------------
  Follow instructions on https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
- Download Adafruit-Neopixel, NTPClient by Fabrice Weinberg
+ Follow instructions on https://randomnerdtutorials.com/install-esp32-filesystem-uploader-arduino-ide/
+ Download Adafruit-Neopixel and NTPClient by Fabrice Weinberg
  Put the Arduino-Timer in your Arduino/library directory
  
  Arduino-IDE Settings

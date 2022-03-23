@@ -4,11 +4,11 @@
     <None Include="Qlocktwo.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.Qlocktwo.vsarduino.h" />
     <ClInclude Include="RTC.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="PixelSet.h" />
     <ClInclude Include="NTP.h" />
+    <ClInclude Include="__vm\.Qlocktwo.vsarduino.h" />
   </ItemGroup>
 </Project>

@@ -6,13 +6,9 @@
 
 AsyncWebServer server(80);
 
-// Benutzername und Passwort für Eingabseite
+// Benutzername und Passwort fï¿½r Eingabseite
 const char* http_username = "admin";
 const char* http_password = "admin";
-
-// Name und Passwort des WLAN's
-const char* ssid = "AndroidAP";
-const char* password = "Mi07022018kW";
 
 // Parameter-Identifiers in Website
 const char* PARAM_STARTUP_TIME = "input1";
@@ -28,7 +24,7 @@ String shutdownTime = "-";
 String auto_brightness = "1";
 bool shutdown = false;
 
-//Website nach Betätigung des Logouts
+//Website nach Betï¿½tigung des Logouts
 const char logout_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
@@ -51,17 +47,13 @@ String getValue(const String& var) {
     return shutdownTime;
   if(var == "SLIDERVALUE") 
     return sliderValue;
-  return shutdown, startupTime, shutdownTime;
-}
-
-void setupSPIFFS() {
-  if (!SPIFFS.begin(true)) {
-    Serial.println("An Error has occurred while mounting SPIFFS");
-    return;
-  }
+  return shutdown ? "OFF" : "ON", startupTime, sliderValue;
 }
 
 void setupServer() {
+  if (!SPIFFS.begin(true))
+    Serial.println("An Error has occurred while mounting SPIFFS");
+  
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     if(!request->authenticate(http_username, http_password))
@@ -71,6 +63,7 @@ void setupServer() {
   
   // Route to load style.css file
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    Serial.println("requested /style.css");
     if(!request->authenticate(http_username, http_password))
       return request->requestAuthentication();
     request->send(SPIFFS, "/style.css", "text/css");
@@ -106,10 +99,10 @@ void setupServer() {
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
 
-  server.on("/grün", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/grï¿½n", HTTP_GET, [](AsyncWebServerRequest *request){
     if(!request->authenticate(http_username, http_password))
       return request->requestAuthentication();
-    color="grün"; 
+    color="grï¿½n"; 
     shutdown = false;
     request->send(SPIFFS, "/index.html", String(), false, getValue);
   });
@@ -140,6 +133,7 @@ void setupServer() {
 
   // Send a GET request to <ESP_IP>/get?input1=<inputMessage>
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    Serial.println("requested /get");
     if(!request->authenticate(http_username, http_password))
       return request->requestAuthentication();
    
@@ -182,6 +176,7 @@ void setupServer() {
   });
 
   server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *request) {
+    Serial.println("requested /update");
     // GET input1 value on <ESP_IP>/update?output=<inputMessage1>&state=<inputMessage2>
     if (request->hasParam(PARAM_AUTO_BRIGHTNESS))
       auto_brightness = request->getParam(PARAM_AUTO_BRIGHTNESS)->value();
@@ -194,6 +189,7 @@ void setupServer() {
   });
 
   server.on("/logout", HTTP_GET, [](AsyncWebServerRequest *request){
+    Serial.println("requested /logout");
     request->send(401);
   });
 
@@ -207,6 +203,10 @@ void setupServer() {
 
 
 #include <WiFi.h>
+
+// Name und Passwort des WLAN's
+const char* ssid = "FRITZ! Box 7412 Repeater";
+const char* password = "54658123531998163263";
 
 bool connectWiFi() {
   WiFi.begin(ssid, password);

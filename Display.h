@@ -104,11 +104,11 @@ void display(const set<uint8_t>& a_leds, uint32_t a_color) {
   for (int i = 0; i < NUMPIXELS; i++)
     a_leds.contains(i)
       ? pixels.setPixelColor(i, a_color)
-      : pixels.setPixelColor(i, a_color);
+      : pixels.setPixelColor(i, 0);
   pixels.show();
 }
 
-void displayTime(Time a_time, uint32_t a_color) {
+void displayTime(Time a_time, uint32_t a_color) {  
   set<uint8_t> leds;
   leds += getCorners(a_time.minute % 5);
   leds += es + isch;
