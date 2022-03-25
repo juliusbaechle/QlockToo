@@ -1,3 +1,4 @@
+#include <DNSServer.h>
 #include <Timer.h>
 #include "RTC.h"
 #include "NTP.h"
@@ -9,6 +10,8 @@
 // - Arduino as WiFi-Hotspot
 // - More efficient logic for NTP updates and WiFi connects
 // - Color-input & color-variable as uint32_t
+// - High-German vs. Swabian version
+// - Summer and Winter Time
 
 #define PHOTORESISTOR_PIN 35
 #define DS3231_I2C_ADDRESS 0x68
@@ -59,9 +62,10 @@ uint32_t getColor(uint8_t a_brightness) {
 void setup() {
   Serial.begin(115200);
   timer.every(1000, onTimeout);
-  connectWiFi();
+  // connectWiFi();
+  setupWiFiAP();
   updateRTC(rtc);
-  setupServer();
+  // setupServer();
   pixels.show();
 }
 
@@ -77,4 +81,5 @@ void onTimeout() {
 
 void loop(){
   timer.update();
+  dnsServer.processNextRequest();
 }

@@ -9,6 +9,7 @@
     <ClInclude Include="Server.h" />
     <ClInclude Include="PixelSet.h" />
     <ClInclude Include="NTP.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="__vm\.Qlocktwo.vsarduino.h" />
   </ItemGroup>
 </Project>
