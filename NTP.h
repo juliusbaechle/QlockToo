@@ -13,9 +13,3 @@ Time readTimeNTP() {
   time.second = (uint8_t)timeClient.getSeconds();
   return time;
 }
-
-void updateRTC(RTC& rtc) {
-  if (!timeClient.update()) return;
-  rtc.set(readTimeNTP());
-  Serial.print("sucessfully read time from ntp server");
-}

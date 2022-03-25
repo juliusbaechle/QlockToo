@@ -43,11 +43,11 @@
 			<p>Zeitsteuerung: </p>
 			<p>Aus um: <strong> %SHUTDOWN_TIME%</strong> &emsp; An um: <strong> %STARTUP_TIME%</strong></p>
 			<p>
-				Ausschalten: <input type="time" id="inpShutdownTime">
+				Ausschalten: <input type="time" id="inpShutdownTime" value="%SHUTDOWN_TIME%">
 				<button onclick="sendShutdownTime()">Send</button>
 			</p>
 			<p>
-				Einschalten: <input type="time" id="inpStartupTime">
+				Einschalten: <input type="time" id="inpStartupTime" value="%STARTUP_TIME%">
 				<button onclick="sendStartupTime()">Send</button>
 			</p>
 

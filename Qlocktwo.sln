@@ -19,14 +19,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NTPClient-3.2.0", "C:\Users
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WiFi-1.0", "C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\WiFi\WiFi-1.0.vcxitems", "{9D864EE0-9D74-4F4D-A57C-1D4993438FF7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DNSServer-1.1.0", "C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\DNSServer\DNSServer-1.1.0.vcxitems", "{62070C2D-E0E0-42EE-9D4C-8AF16AD1C0DB}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\Wire\Wire-1.0.1.vcxitems*{42394720-e8dc-49d0-b5dd-00ae715e1038}*SharedItemsImports = 9
+		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\DNSServer\DNSServer-1.1.0.vcxitems*{62070c2d-e0e0-42ee-9d4c-8af16ad1c0db}*SharedItemsImports = 9
 		C:\Users\julius.baechle\Documents\Arduino\libraries\ESPAsyncWebServer\ESPAsyncWebServer-1.2.3.vcxitems*{6894882b-60dc-4949-8839-244cb990e47d}*SharedItemsImports = 9
 		C:\Users\julius.baechle\Documents\Arduino\libraries\NTPClient\NTPClient-3.2.0.vcxitems*{786be793-b67c-4e3b-882a-8c31c8a6c8c2}*SharedItemsImports = 9
 		C:\Users\julius.baechle\Documents\Arduino\libraries\Adafruit_NeoPixel\Adafruit_NeoPixel-1.7.0.vcxitems*{8632abce-25da-498d-a361-075d374115c5}*SharedItemsImports = 9
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\SPIFFS\SPIFFS-1.0.vcxitems*{890d6983-e095-4898-b270-17e11d6d4f5a}*SharedItemsImports = 9
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\WiFi\WiFi-1.0.vcxitems*{9d864ee0-9d74-4f4d-a57c-1d4993438ff7}*SharedItemsImports = 9
+		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\DNSServer\DNSServer-1.1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\SPIFFS\SPIFFS-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\WiFi\WiFi-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\Wire\Wire-1.0.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4

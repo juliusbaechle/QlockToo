@@ -1,22 +1,19 @@
-#include <DNSServer.h>
 #include <Timer.h>
 #include "RTC.h"
 #include "NTP.h"
 #include "Display.h"
 
 // TODO:
-// - Reload server on startup/shutdown-time change
+// - Reload website on startup/shutdown-time change
 // - Persisted configuration-structure
-// - Arduino as WiFi-Hotspot
-// - More efficient logic for NTP updates and WiFi connects
 // - Color-input & color-variable as uint32_t
-// - High-German vs. Swabian version
-// - Summer and Winter Time
+// - High-German and Swabian version in same sketch
+// - summer and winter Time
+// - Rename QlockTwo to ClockTwo
 
 #define PHOTORESISTOR_PIN 35
 #define DS3231_I2C_ADDRESS 0x68
 
-Timer timer;
 RTC rtc(DS3231_I2C_ADDRESS);
 
 #include "Server.h"
@@ -61,25 +58,53 @@ uint32_t getColor(uint8_t a_brightness) {
 
 void setup() {
   Serial.begin(115200);
-  timer.every(1000, onTimeout);
-  // connectWiFi();
-  setupWiFiAP();
-  updateRTC(rtc);
-  // setupServer();
+  WiFi.begin(ssid.c_str(), password.c_str());
+  setupServer();
+  updateRTC();
   pixels.show();
+}
+
+void updateRTC() {
+  static uint64_t updateRtcMs = 0;
+  static bool initialized = false;
+
+  if (initialized && millis() - updateRtcMs < 60 * 60 * 1000) return;
+  if (!WiFi.isConnected()) return;
+  initialized = true;
+
+  Serial.print("RTC-Update: ");
+  if (timeClient.update()) {
+    Serial.println("succeeded");
+    rtc.set(readTimeNTP());
+    updateRtcMs = millis();
+  } else {
+    Serial.println("failed");
+  }
 }
 
 void onTimeout() {
   Time time = rtc.read();
   updateNightTime(time);
   displayTime(time, getColor(getBrightness()));
-  if (time.minute == 20 && time.second == 0)
-    connectWiFi();
-  if (time.hour == 5 && time.minute == 0 && time.second == 30)
-    updateRTC(rtc);
+  updateRTC();
+
+  Serial.print("WiFi: ");
+  Serial.println(WiFi.isConnected());
 }
 
+
+
 void loop(){
-  timer.update();
   dnsServer.processNextRequest();
+
+  static uint64_t timeoutMs = 0;
+  if (millis() - timeoutMs > 1000) {
+    timeoutMs = millis();
+    onTimeout();
+  }
+
+  static uint64_t disconnectedMs = 0;
+  if (WiFi.isConnected())
+    disconnectedMs = millis();
+  setWiFiMode(millis() - disconnectedMs > 10 * 1000);
 }

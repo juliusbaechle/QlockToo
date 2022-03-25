@@ -6,10 +6,12 @@
   <ItemGroup>
     <ClInclude Include="RTC.h" />
     <ClInclude Include="Display.h" />
-    <ClInclude Include="Server.h" />
     <ClInclude Include="PixelSet.h" />
     <ClInclude Include="NTP.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="__vm\.Qlocktwo.vsarduino.h" />
+    <ClInclude Include="WebsiteHandler.h" />
+    <ClInclude Include="AccessPointHandler.h" />
+    <ClInclude Include="Server.h" />
   </ItemGroup>
 </Project>
