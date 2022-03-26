@@ -18,12 +18,12 @@ void setWiFiMode(bool a_disconnected) {
   if (a_disconnected) {
     Serial.println("enabled access point mode");
     WiFi.mode(WIFI_AP);
-    WiFi.softAP("QlockTwo", "QlockTwo");
+    WiFi.softAP("ClockTwo", "ClockTwo");
     dnsServer.start(53, "*", WiFi.softAPIP());
   } else {
     Serial.println("enabled station mode");
     WiFi.mode(WIFI_STA);
-    WiFi.setHostname("QlockTwo");
+    WiFi.setHostname("ClockTwo");
     dnsServer.stop();
   }
 }
