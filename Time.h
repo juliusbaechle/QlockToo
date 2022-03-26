@@ -5,7 +5,7 @@ struct Time {
   uint8_t minute = 0;
   uint8_t second = 0;
 
-  bool operator< (const Time& a_time) {
+  bool operator< (const Time& a_time) const {
     if (hour < a_time.hour)
       return true;
     if (minute < a_time.minute)
@@ -15,7 +15,7 @@ struct Time {
     return false;
   }
 
-  bool operator== (const Time& a_time) {
+  bool operator== (const Time& a_time) const {
     if (hour != a_time.hour)
       return false;
     if (minute != a_time.minute)
@@ -25,7 +25,7 @@ struct Time {
     return true;
   }
 
-  String toMinString() {
+  String toMinString() const {
     String strHour = hour > 9 ? String(hour) : "0" + String(hour);
     String strMinute = minute > 9 ? String(minute) : "0" + String(minute);
     return strHour + ":" + strMinute;

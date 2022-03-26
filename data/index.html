@@ -3,76 +3,45 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="utf-8" />
-		<title>QlockTwo</title>
+		<title>ClockTwo</title>
 		<link rel="stylesheet" href="style.css">
 		<meta name="viweport" content="width=device-width, initial-scale=1" >
 	</head>
 	<body>
 		<div id="top">
-			<div id="logo-name">QlockTwo Steuerung</div>
+			<div id="logo-name">ClockTwo Steuerung</div>
 		</div>
 		
 		<div id="main">
-			<div id="statePanel">
-				<p>QlockTwo ist: <strong> %STATE%</strong></p>
-				<p>
-					<a href="/on"><button id="btnOn">ON</button></a>
-					<a href="/off"><button id="btnOff">OFF</button></a>
-				</p>
-			</div> <br>
+			<p><div id="statePanel">
+				ClockTwo ist: <strong> %STATE%</strong> <br> <br>
+				<a href="/on"><button id="btnOn">ON</button></a>
+				<a href="/off"><button id="btnOff">OFF</button></a>
+			</div></p>
 
-			<div id="colorPanel">
-				<p>In welcher Farbe soll die Uhr leuchten: </p>
-				<p>
-					<a href="/white"><button id="btnWhite">weiß</button></a>
-					<a href="/red"><button id="btnRed">rot</button></a>
-					<a href="/green"><button id="btnGreen">grün</button></a>
-				</p>
-				<p>
-					<a href="/blue"><button id="btnBlue">blau</button></a>
-					<a href="/purple"><button id="btnPurple">violett</button></a>
-					<a href="/yellow"><button id="btnYellow">gelb</button></a>
-				</p>
-				<input type="color" id="inpColor" value=%COLOR%>
-			</div> <br>		
+			<p><div id="colorPanel">
+				<input type="checkbox" onchange="toggleAutoBrightness(this)" id="cbxAutoBrightness" %AUTO_BRIGHTNESS%> Adaptive Luminosity <br>
+				<input type="range" onchange="sendColor()" oninput="updateColor()" id="sldHue" min="0" max="359" value="0" step="1"> Color <br>
+				<input type="range" onchange="sendColor()" oninput="updateColor()" id="sldSaturation" min="0" max="255" value="255" step="1"> Saturation <br>
+				<div id="inpValue"><input type="range" onchange="sendColor()" oninput="updateColor()" id="sldValue" min="0" max="255" value="255" step="1"> Brightness <br> </div>			
+				<br><button id="btnColor"></button>
+			</div></p>
 
-			<p>Helligkeitssteuerung: </p>
-			Automatic: <label class="switch"><input type="checkbox" onchange="toggleAutoBrightness(this)" id="cbxAutoBrightness" %AUTO_BRIGHTNESS%><span id="spanAutoBrightness"></span></label>
-			<p><input type="range" onchange="updateManualBrightness(this)" id="sldManualBrightness" min="1" max="255" value=%MANUAL_BRIGHTNESS% step="1"> <span id="spanManualBrightness">%MANUAL_BRIGHTNESS%</span></p> <br>
-
-			<p>Zeitsteuerung: </p>
-			<p>Aus um: <strong> %SHUTDOWN_TIME%</strong> &emsp; An um: <strong> %STARTUP_TIME%</strong></p>
-			<p>
-				Ausschalten: <input type="time" id="inpShutdownTime" value="%SHUTDOWN_TIME%">
-				<button onclick="sendShutdownTime()">Send</button>
-			</p>
 			<p>
 				Einschalten: <input type="time" id="inpStartupTime" value="%STARTUP_TIME%">
 				<button onclick="sendStartupTime()">Send</button>
+				<br>
+				Ausschalten: <input type="time" id="inpShutdownTime" value="%SHUTDOWN_TIME%">
+				<button onclick="sendShutdownTime()">Send</button>
 			</p>
 
-			<p>	<a href="/reset"><button id="btnReset">Reset</button></a> </p>
-			<p> <button onclick="logout()" id="btnLogout">Logout</button> </p>
+			<p>	
+				<a href="/reset"><button id="btnReset">Reset</button></a> 
+				<button onclick="logout()" id="btnLogout">Logout</button> 
+			</p>
 		</div>
 
-		<script>
-			function updateManualBrightness(slider) {
-				document.getElementById("spanManualBrightness").innerHTML = slider.value;
-				var xhr = new XMLHttpRequest();
-				xhr.open("GET", "/manual_brightness?value=" + slider.value, true);
-				xhr.send();
-			}
-
-			function toggleAutoBrightness(element) {
-				var xhr = new XMLHttpRequest();
-				if (element.checked) { 
-					xhr.open("GET", "/auto_brightness?value=ON", true); 
-				} else { 
-					xhr.open("GET", "/auto_brightness?value=OFF", true); 
-				}
-				xhr.send();
-			}
-		   
+		<script>		   
 			function logout() {
 				var xhr = new XMLHttpRequest();
 				xhr.open("GET", "/logout", true);
@@ -91,6 +60,81 @@
 				var value = document.getElementById("inpStartupTime").value;
 				var xhr = new XMLHttpRequest();
 				xhr.open("GET", "/startup_time?value=" + value, true);
+				xhr.send();
+			}
+
+			class Color {
+				constructor(r, g, b) {
+					this.r = Math.round(r);
+					this.g = Math.round(g);
+					this.b = Math.round(b);
+				}
+
+				static fromHsv(h, s, v) {
+					var main = (v * s) / 255;
+					var blending = Math.round(main * (1 - Math.abs((h/60) % 2 - 1)));
+					var white = v - main;
+
+					var c;
+					if(0 <= h && h < 60)
+						c = new Color(main, blending, 0);
+					if(60 <= h && h < 120)
+						c = new Color(blending, main, 0);
+					if(120 <= h && h < 180)
+						c = new Color(0, main, blending);
+					if(180 <= h && h < 240)
+						c = new Color(0, blending, main);
+					if(240 <= h && h < 300)
+						c = new Color(blending, 0, main);
+					if(300 <= h && h < 360)
+						c = new Color(main, 0, blending);
+					
+					c.r += white;
+					c.g += white;
+					c.b += white;
+					return c;
+				}
+				
+				toString() {
+					var str = "#";
+					str += this.r.toString(16).padStart(2, '0');
+					str += this.g.toString(16).padStart(2, '0');
+					str += this.b.toString(16).padStart(2, '0');
+					return str;
+				}
+			}
+
+			function currentColor() {
+				var c = Color.fromHsv(
+					Math.round(document.getElementById("sldHue").value),
+					Math.round(document.getElementById("sldSaturation").value),
+					Math.round(document.getElementById("sldValue").value)
+				);
+				return c.toString();
+			}
+			
+			function updateColor() {
+				document.getElementById("btnColor").style.background = currentColor();
+			}
+			
+			function sendColor() {
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/color?value=" + encodeURIComponent(currentColor()), true);
+				xhr.send();
+			}
+
+			function toggleAutoBrightness(element) {
+				var inpValue = document.getElementById("inpValue");
+				if(element.checked) {
+					document.getElementById("sldValue").value = "255";
+					inpValue.style.display = "none";
+					updateColor();
+				} else{
+					inpValue.style.display = "block";
+				}
+
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/auto_brightness?value=" + element.checked, true);
 				xhr.send();
 			}
 		</script>

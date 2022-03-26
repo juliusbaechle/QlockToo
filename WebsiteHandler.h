@@ -1,33 +1,9 @@
 ﻿#pragma once
 
 #include <ESPAsyncWebServer.h>
+#include "Configuration.h"
 
-// Benutzername und Passwort f�r Eingabseite
-const char* http_username = "admin";
-const char* http_password = "admin";
-
-// Config set by Server
-String color = "rot";
-Time startupTime;
-Time shutdownTime;
-bool auto_brightness = true;
-uint8_t manual_brightness = 255;
 bool shutdown = false;
-
-bool isDayTime(Time a_time) {
-  if (startupTime < shutdownTime) {
-    return startupTime < a_time && a_time < shutdownTime;
-  } else {
-    return startupTime < a_time || a_time < shutdownTime;
-  }
-}
-
-bool updateNightTime(Time a_time) {
-  if (a_time == shutdownTime)
-    shutdown = true;
-  if (a_time == startupTime)
-    shutdown = false;
-}
 
 class WebsiteHandler : public AsyncWebHandler {
 public:
@@ -43,7 +19,7 @@ public:
     if (request->url() == "/logged-out")
       return request->send(SPIFFS, "/logout.html");
 
-    if (!request->authenticate(http_username, http_password))
+    if (!request->authenticate(config.username().c_str(), config.password().c_str()))
       return request->requestAuthentication();
 
     if(request->url() == "/style.css")
@@ -53,26 +29,14 @@ public:
       shutdown = false;
     if (request->url() == "/off")
       shutdown = true;
-    if (request->url() == "/white")
-      color = "white";
-    if (request->url() == "/red")
-      color = "red";
-    if (request->url() == "/green")
-      color = "green";
-    if (request->url() == "/blue")
-      color = "blue";
-    if (request->url() == "/purple")
-      color = "purple";
-    if (request->url() == "/yellow")
-      color = "red";
+    if (request->url() == "/color")
+      setColor(request);
     if (request->url() == "/startup_time")
       setStartupTime(request->getParam("value")->value());
     if (request->url() == "/shutdown_time")
       setShutdownTime(request->getParam("value")->value());
-    if (request->url() == "/manual_brightness")
-      manual_brightness = (uint8_t)request->getParam("value")->value().toInt();
     if (request->url() == "/auto_brightness")
-      auto_brightness = request->getParam("value")->value() == "ON";
+      config.setAutoBrightness(request->getParam("value")->value() == "true");
     if (request->url() == "/reset")
       reset();
 
@@ -80,21 +44,32 @@ public:
   }
 
 private:
+  void setColor(AsyncWebServerRequest *request) {
+    Serial.print("received ");
+    Serial.print(request->params());
+    Serial.print(", ");
+    Serial.println(request->hasParam("value"));
+    Serial.print(", ");
+    Serial.println(request->getParam("value")->value());
+
+    config.setColor(Color::parse(request->getParam("value")->value()));
+  }
+
   void setShutdownTime(String a_str) {
-    shutdownTime = Time::parseMinString(a_str);
-    shutdown = !isDayTime(rtc.read());
+    config.setShutdownTime(Time::parseMinString(a_str));
+    shutdown = !config.isActiveTime(rtc.read());
   }
 
   void setStartupTime(String a_str) {
-    startupTime = Time::parseMinString(a_str);
-    shutdown = !isDayTime(rtc.read());
+    config.setStartupTime(Time::parseMinString(a_str));
+    shutdown = !config.isActiveTime(rtc.read());
   }
   
   void reset() {
     shutdown = false;
-    startupTime = Time();
-    shutdownTime = Time();
-    color = "white";
+    config.setStartupTime(Time());
+    config.setShutdownTime(Time());
+    config.setColor(Color(255, 255, 255));
   }
 
 private:
@@ -102,13 +77,13 @@ private:
     if (a_var == "STATE")
       return shutdown ? "OFF" : "ON";
     if (a_var == "STARTUP_TIME")
-      return startupTime.toMinString();
+      return config.startupTime().toMinString();
     if (a_var == "SHUTDOWN_TIME")
-      return shutdownTime.toMinString();
-    if (a_var == "MANUAL_BRIGHTNESS")
-      return String((int)manual_brightness);
+      return config.shutdownTime().toMinString();
     if (a_var == "AUTO_BRIGHTNESS")
-      return auto_brightness ? "checked" : "";
+      return config.autoBrightness() ? "checked" : "";
+    if (a_var == "COLOR")
+      return config.color().toString();
     return "INVALID";
   }
 };

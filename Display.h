@@ -5,7 +5,7 @@
 
 #define LED_PIN 18 //Pin des LED-Bands
 #define NUMPIXELS 114 //Anzahl der LEDs
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, LED_PIN, NEO_RGBW + NEO_KHZ800); //Inizialisierung der NeoPixels Bibliothek
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, LED_PIN, NEO_GRBW + NEO_KHZ800); //Inizialisierung der NeoPixels Bibliothek
 
 const set<uint8_t> heart = { 104, 94, 92, 80, 84, 74, 68, 56, 64, 54, 44, 43, 33, 31, 23, 38, 28, 26, 14, 13, 18, 19 };
 const set<uint8_t> kati = { 0, 1, 2, 3 };
@@ -108,7 +108,7 @@ void display(const set<uint8_t>& a_leds, uint32_t a_color) {
   pixels.show();
 }
 
-void displayTime(Time a_time, uint32_t a_color) {  
+void displayTime(Time a_time, uint32_t a_color) {
   set<uint8_t> leds;
   leds += getCorners(a_time.minute % 5);
   leds += es + isch;

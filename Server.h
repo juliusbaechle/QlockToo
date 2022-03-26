@@ -23,7 +23,6 @@ void setWiFiMode(bool a_disconnected) {
   } else {
     Serial.println("enabled station mode");
     WiFi.mode(WIFI_STA);
-    WiFi.setHostname("ClockTwo");
     dnsServer.stop();
   }
 }

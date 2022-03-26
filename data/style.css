@@ -1,4 +1,4 @@
-﻿body {
+body {
     font-family: Arial, Arial, Helvetica, sans-serif
 }
 
@@ -10,13 +10,16 @@
     text-align: center;
 }
 
+p {
+    margin-bottom: 60px;
+}
+
 #logo-name {
     color: black;
     display: inline-block;
     font-size: 32px;
     font-weight: bold
 }
-
 
 #statePanel button {
     display: inline-block;
@@ -37,40 +40,13 @@
     background-color: #364cf4;
 }
 
-
 #colorPanel button {
-    color: black;
     font-size: 32px;
     height: 60px;
     width: 150px;
     padding: 8px 30px;
-    font-weight: bold //blue color
+    background: red;
 }
-
-#btnWhite{
-    background-color: gray;
-}
-
-#btnRed {
-	background-color: red;
-}
-
-#btnGreen {
-    background-color: green;
-}
-
-#btnBlue {
-    background-color: blue;
-}
-
-#btnPurple {
-    background-color: mediumvioletred;
-}
-
-#btnYellow {
-    background-color: yellow;
-}
-
 
 #btnReset {
     color: black;

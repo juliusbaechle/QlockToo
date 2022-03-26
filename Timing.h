@@ -1,7 +1,20 @@
 #pragma once
 
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 #include <Wire.h>
 #include "Time.h"
+
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+
+Time readTimeNTP() {
+  Time time;
+  time.hour = (uint8_t)timeClient.getHours();
+  time.minute = (uint8_t)timeClient.getMinutes();
+  time.second = (uint8_t)timeClient.getSeconds();
+  return time;
+}
 
 class RTC {
 public:
@@ -43,4 +56,25 @@ private:
 
 private:
   int m_i2cAdress = 0;
-};
+}; 
+
+#define DS3231_I2C_ADDRESS 0x68
+RTC rtc(DS3231_I2C_ADDRESS);
+
+
+void updateRTC() {
+  static uint64_t updateRtcMs = 0;
+  static bool initialized = false;
+
+  if (initialized && millis() - updateRtcMs < 60 * 60 * 1000) return;
+  initialized = true;
+
+  Serial.print("RTC-Update: ");
+  if (timeClient.update()) {
+    Serial.println("succeeded");
+    rtc.set(readTimeNTP());
+    updateRtcMs = millis();
+  } else {
+    Serial.println("failed");
+  }
+}

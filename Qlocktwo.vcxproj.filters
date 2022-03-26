@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="RTC.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="PixelSet.h" />
-    <ClInclude Include="NTP.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="WebsiteHandler.h" />
     <ClInclude Include="AccessPointHandler.h" />
     <ClInclude Include="Server.h" />
-    <ClInclude Include="__vm\.Qlocktwo.vsarduino.h" />
+    <ClInclude Include="__vm\.ClockTwo.vsarduino.h" />
+    <ClInclude Include="Timing.h" />
+    <ClInclude Include="Configuration.h" />
+    <ClInclude Include="Color.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClockTwo.ino" />
