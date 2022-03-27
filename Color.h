@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+#include <WString.h>
 #include <Adafruit_NeoPixel.h>
 
 struct Color {
@@ -15,7 +17,7 @@ struct Color {
     this->b = b;
   }
 
-  static Color parse(String a_str) {
+  static Color parse(const String& a_str) {
     int number = (int)strtol(&a_str.c_str()[1], NULL, 16);
 
     Color c;

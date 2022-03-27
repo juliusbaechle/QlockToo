@@ -2,9 +2,6 @@
 
 #include <ESPAsyncWebServer.h>
 
-String ssid = "";
-String password = "";
-
 class AccessPointHandler : public AsyncWebHandler {
 public:
   AccessPointHandler() {}
@@ -24,28 +21,19 @@ public:
 
 private:
   void onSubmit(AsyncWebServerRequest* a_request) {
-    Serial.print("Parameters: ");
-    Serial.println(a_request->params());
-
     if (a_request->hasParam("ssid"))
-      ssid = a_request->getParam("ssid")->value();
+      config.setWiFiSsid(a_request->getParam("ssid")->value());
     if (a_request->hasParam("password"))
-      password = a_request->getParam("password")->value();
-
-    Serial.print("Set Credentials: ");
-    Serial.print(ssid);
-    Serial.print(", ");
-    Serial.println(password);
-
-    WiFi.begin(ssid.c_str(), password.c_str());
+      config.setWiFiPassword(a_request->getParam("password")->value());
+    WiFi.begin(config.wiFiSsid().c_str(), config.wiFiPassword().c_str());
   }
 
 private:
   static String getValue(const String& a_var) {
     if (a_var == "SSID")
-      return ssid;
+      return config.wiFiSsid();
     if (a_var == "PASSWORD")
-      return password;
+      return config.wiFiPassword();
     return "INVALID";
   }
 };

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdint.h>
+#include <WString.h>
+
 struct Time {
   uint8_t hour = 0;
   uint8_t minute = 0;
@@ -31,7 +34,7 @@ struct Time {
     return strHour + ":" + strMinute;
   }
 
-  static Time parseMinString(String a_str) {
+  static Time parseMinString(const String& a_str) {
     Time time;
     time.hour = a_str.substring(0, 2).toInt();
     time.minute = a_str.substring(3, 5).toInt();

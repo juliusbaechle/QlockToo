@@ -28,11 +28,6 @@ void setWiFiMode(bool a_disconnected) {
 }
 
 void setupServer() {
-  if (!SPIFFS.begin(true))
-    Serial.println("An Error has occurred while mounting SPIFFS");
-
-  WiFi.begin();
-
   server.addHandler(new WebsiteHandler()).setFilter(ON_STA_FILTER);
   server.addHandler(new AccessPointHandler()).setFilter(ON_AP_FILTER);
   server.begin();

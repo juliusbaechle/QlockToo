@@ -36,7 +36,9 @@ uint8_t getBrightness() {
 
 void setup() {
   Serial.begin(115200);
-  WiFi.begin(ssid.c_str(), password.c_str());
+  SPIFFS.begin(true);
+  config = Configuration::load();
+  WiFi.begin(config.wiFiSsid().c_str(), config.wiFiPassword().c_str());
   WiFi.setHostname("QlockToo");
   setupServer();
   updateRTC();
