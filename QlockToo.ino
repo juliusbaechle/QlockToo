@@ -1,16 +1,12 @@
 // TODO:
-// - Reload website on startup/shutdown-time change
 // - Persisted configuration-structure
-// - Color-input & color-variable as uint32_t
-// - High-German and Swabian version in same sketch
-// - summer and winter Time
-// - Redesign websites / push params without reloading website?
-// - Update RTC on WiFi connect
+// - Push params from website without reload
+// - Enhanced website stylesheets
+// - Refactor/Simplify code
 
-#include <Timer.h>
 #include "Timing.h"
-#include "Display.h"
 #include "Server.h"
+#include "GermanDisplay.h"
 
 #define PHOTORESISTOR_PIN 35
 
@@ -35,7 +31,7 @@ uint8_t getBrightness() {
     return 0;
   if (config.autoBrightness())
     return getAutoBrightness();
-  return 255;  
+  return 100;
 }
 
 void setup() {
@@ -54,7 +50,7 @@ bool updateNightTime(Time a_time) {
     shutdown = false;
 }
 
-void onTimeout() {
+void update() {
   Time time = rtc.read();
   time.addHours(config.utcOffset());
   updateNightTime(time);
@@ -69,13 +65,13 @@ void onTimeout() {
   Serial.println(WiFi.isConnected());
 }
 
-void loop(){
+void loop() {
   dnsServer.processNextRequest();
 
   static uint64_t timeoutMs = 0;
   if (millis() - timeoutMs > 1000) {
     timeoutMs = millis();
-    onTimeout();
+    update();
   }
 
   static uint64_t disconnectedMs = 0;

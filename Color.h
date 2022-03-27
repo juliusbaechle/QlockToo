@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Adafruit_NeoPixel.h>
+
 struct Color {
   uint8_t r = 255;
   uint8_t g = 255;
@@ -32,6 +34,9 @@ struct Color {
   }
 
   Color& dimm(uint8_t a_perc) {
+    if (a_perc > 100) 
+      a_perc = 100;
+
     r = ((uint16_t)r * a_perc) / 100;
     g = ((uint16_t)g * a_perc) / 100;
     b = ((uint16_t)b * a_perc) / 100;
