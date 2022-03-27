@@ -9,12 +9,12 @@
 	</head>
 	<body>
 		<div id="top">
-			<div id="logo-name">QlockToo Steuerung</div>
+			<div id="logo-name">QlockToo Control</div>
 		</div>
 		
 		<div id="main">
 			<p><div id="statePanel">
-				QlockToo ist: <strong> %STATE%</strong> <br> <br>
+				QlockToo is: <strong> %STATE%</strong> <br> <br>
 				<a href="/on"><button id="btnOn">ON</button></a>
 				<a href="/off"><button id="btnOff">OFF</button></a>
 			</div></p>
@@ -28,11 +28,15 @@
 			</div></p>
 
 			<p>
-				Einschalten: <input type="time" id="inpStartupTime" value="%STARTUP_TIME%">
+				Startup <input type="time" id="inpStartupTime" value="%STARTUP_TIME%">
 				<button onclick="sendStartupTime()">Send</button>
-				<br>
-				Ausschalten: <input type="time" id="inpShutdownTime" value="%SHUTDOWN_TIME%">
+				<br><br>
+				Shutdown <input type="time" id="inpShutdownTime" value="%SHUTDOWN_TIME%">
 				<button onclick="sendShutdownTime()">Send</button>
+				<br><br>
+				UTC Offset
+				<input type="range" id="sldUtcOffset" oninput="updateUtcOffset(this)" onchange="sendUtcOffset(this)" value="%UTC_OFFSET%" min="-12", max="12" value="0">
+				<span id="textUtcOffset">0 h</span>
 			</p>
 
 			<p>	
@@ -135,6 +139,16 @@
 
 				var xhr = new XMLHttpRequest();
 				xhr.open("GET", "/auto_brightness?value=" + element.checked, true);
+				xhr.send();
+			}
+			
+			function updateUtcOffset(element) {
+				document.getElementById("textUtcOffset").innerHTML = element.value + " h";
+			}
+			
+			function sendUtcOffset(element) {
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/utc_offset?value=" + encodeURIComponent(element.value), true);
 				xhr.send();
 			}
 		</script>

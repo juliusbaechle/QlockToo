@@ -38,4 +38,12 @@ struct Time {
     time.second = 0;
     return time;
   }
+
+  void addHours(int32_t a_hours) {
+    a_hours %= 24;
+    if (a_hours < 0)
+      a_hours += 24;
+    hour += a_hours;
+    hour %= 24;
+  }
 };

@@ -30,13 +30,15 @@ public:
     if (request->url() == "/off")
       shutdown = true;
     if (request->url() == "/color")
-      setColor(request);
+      config.setColor(Color::parse(request->getParam("value")->value()));
     if (request->url() == "/startup_time")
       setStartupTime(request->getParam("value")->value());
     if (request->url() == "/shutdown_time")
       setShutdownTime(request->getParam("value")->value());
     if (request->url() == "/auto_brightness")
       config.setAutoBrightness(request->getParam("value")->value() == "true");
+    if (request->url() == "/utc_offset")
+      config.setUtcOffset(request->getParam("value")->value().toInt());
     if (request->url() == "/reset")
       reset();
 
@@ -44,17 +46,6 @@ public:
   }
 
 private:
-  void setColor(AsyncWebServerRequest *request) {
-    Serial.print("received ");
-    Serial.print(request->params());
-    Serial.print(", ");
-    Serial.println(request->hasParam("value"));
-    Serial.print(", ");
-    Serial.println(request->getParam("value")->value());
-
-    config.setColor(Color::parse(request->getParam("value")->value()));
-  }
-
   void setShutdownTime(String a_str) {
     config.setShutdownTime(Time::parseMinString(a_str));
     shutdown = !config.isActiveTime(rtc.read());
@@ -84,6 +75,8 @@ private:
       return config.autoBrightness() ? "checked" : "";
     if (a_var == "COLOR")
       return config.color().toString();
+    if (a_var == "UTC_OFFSET")
+      return String(config.utcOffset());
     return "INVALID";
   }
 };

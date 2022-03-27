@@ -14,21 +14,12 @@ struct Color {
   }
 
   static Color parse(String a_str) {
-    Serial.print("parsing: ");
-    Serial.println(a_str);
-
     int number = (int)strtol(&a_str.c_str()[1], NULL, 16);
 
     Color c;
     c.r = number >> 16;
     c.g = number >> 8 & 0xFF;
     c.b = number & 0xFF;
-
-    Serial.print("parsed: ");
-    Serial.print(c.toString());
-    Serial.print(", ");
-    Serial.println(c.toAdafruit(), 16);
-
     return c;
   }
 
@@ -47,7 +38,7 @@ struct Color {
     return *this;
   }
 
-  uint32_t toAdafruit() {
+  uint32_t toInt() {
     uint8_t w = min({ r, g, b });
     return Adafruit_NeoPixel::Color(r - w, g - w, b - w, w);
   }

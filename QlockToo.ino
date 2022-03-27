@@ -56,9 +56,10 @@ bool updateNightTime(Time a_time) {
 
 void onTimeout() {
   Time time = rtc.read();
+  time.addHours(config.utcOffset());
   updateNightTime(time);
 
-  uint32_t color = config.color().dimm(getBrightness()).toAdafruit();
+  uint32_t color = config.color().dimm(getBrightness()).toInt();
   displayTime(time, color);
 
   if (WiFi.isConnected())

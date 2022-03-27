@@ -23,6 +23,9 @@ public:
   bool autoBrightness() const { return m_autoBrightness; }
   void setAutoBrightness(bool a_autoBrightness) { m_autoBrightness = a_autoBrightness; }
 
+  int8_t utcOffset() const { return m_utcOffset; }
+  void setUtcOffset(int8_t a_offset) { m_utcOffset = a_offset; }
+
   bool isActiveTime(Time a_time) const {
     if (m_startupTime < m_shutdownTime) {
       return m_startupTime < a_time && a_time < m_shutdownTime;
@@ -32,6 +35,7 @@ public:
   }
 
 private:
+  int8_t m_utcOffset = 0;
   String m_username = "admin";
   String m_password = "admin";
   Time m_startupTime;

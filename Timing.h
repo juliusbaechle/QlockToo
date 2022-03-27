@@ -6,7 +6,7 @@
 #include "Time.h"
 
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+NTPClient timeClient(ntpUDP, "europe.pool.ntp.org");
 
 Time readTimeNTP() {
   Time time;
