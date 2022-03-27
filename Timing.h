@@ -63,17 +63,14 @@ RTC rtc(DS3231_I2C_ADDRESS);
 
 
 void updateRTC() {
-  static uint64_t updateRtcMs = 0;
-  static bool initialized = false;
-
-  if (initialized && millis() - updateRtcMs < 60 * 60 * 1000) return;
-  initialized = true;
+  static uint64_t nextUpdateMs = 0;
+  if (nextUpdateMs > millis()) return;
 
   Serial.print("RTC-Update: ");
   if (timeClient.update()) {
     Serial.println("succeeded");
     rtc.set(readTimeNTP());
-    updateRtcMs = millis();
+    nextUpdateMs = millis() + 60 * 60 * 1000;
   } else {
     Serial.println("failed");
   }
