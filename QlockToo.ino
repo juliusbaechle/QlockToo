@@ -41,7 +41,7 @@ uint8_t getBrightness() {
 void setup() {
   Serial.begin(115200);
   WiFi.begin(ssid.c_str(), password.c_str());
-  WiFi.setHostname("ClockTwo");
+  WiFi.setHostname("QlockToo");
   setupServer();
   updateRTC();
   pixels.show();

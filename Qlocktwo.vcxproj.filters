@@ -7,12 +7,12 @@
     <ClInclude Include="WebsiteHandler.h" />
     <ClInclude Include="AccessPointHandler.h" />
     <ClInclude Include="Server.h" />
-    <ClInclude Include="__vm\.ClockTwo.vsarduino.h" />
     <ClInclude Include="Timing.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="__vm\.ClockTwo.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClockTwo.ino" />
+    <None Include="QlockToo.ino" />
   </ItemGroup>
 </Project>
