@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CONFIGURATION__H
+#define CONFIGURATION__H
 
 #include "Time.h"
 #include "Color.h"
@@ -59,3 +60,5 @@ private:
 };
 
 extern Configuration config;
+
+#endif

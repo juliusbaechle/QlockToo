@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SERVER__H
+#define SERVER__H
 
 #include <WiFi.h>
 #include <SPIFFS.h>
@@ -32,3 +33,5 @@ void setupServer() {
   server.addHandler(new AccessPointHandler()).setFilter(ON_AP_FILTER);
   server.begin();
 }
+
+#endif

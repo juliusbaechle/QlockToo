@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TIMING__H
+#define TIMING__H
 
 #include <NTPClient.h>
 #include <WiFiUdp.h>
@@ -75,3 +76,5 @@ void updateRTC() {
     Serial.println("failed");
   }
 }
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SWABIANDISPLAY__H
+#define SWABIANDISPLAY__H
 
 #include "Display.h"
 
@@ -76,3 +77,5 @@ void displayTime(Time a_time, uint32_t a_color) {
   leds += getHours(a_time.hour, a_time.minute);
   display(leds, a_color);
 }
+
+#endif

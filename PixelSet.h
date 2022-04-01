@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PIXELSET__H
+#define PIXELSET__H
 
 #include <set>
 
@@ -41,3 +42,5 @@ public:
 private:
   std::set<uint8_t> m_set;
 };
+
+#endif

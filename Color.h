@@ -1,4 +1,5 @@
-#pragma once
+#ifndef COLOR__H
+#define COLOR__H
 
 #include <stdint.h>
 #include <WString.h>
@@ -50,3 +51,5 @@ struct Color {
     return Adafruit_NeoPixel::Color(r - w, g - w, b - w, w);
   }
 };
+
+#endif

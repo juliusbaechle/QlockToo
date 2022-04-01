@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ACCESSPOINTHANDLER__H
+#define ACCESSPOINTHANDLER__H
 
 #include <ESPAsyncWebServer.h>
 
@@ -37,3 +38,5 @@ private:
     return "INVALID";
   }
 };
+
+#endif

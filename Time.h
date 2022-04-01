@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TIME__H
+#define TIME__H
 
 #include <stdint.h>
 #include <WString.h>
@@ -50,3 +51,5 @@ struct Time {
     hour %= 24;
   }
 };
+
+#endif

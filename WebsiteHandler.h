@@ -1,4 +1,5 @@
-﻿#pragma once
+#ifndef WEBSITEHANDLER__H
+#define WEBSITEHANDLER__H
 
 #include <ESPAsyncWebServer.h>
 #include "Configuration.h"
@@ -80,3 +81,5 @@ private:
     return "INVALID";
   }
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DISPLAY__H
+#define DISPLAY__H
 
 #include "PixelSet.h"
 #include <Adafruit_NeoPixel.h>
@@ -33,3 +34,5 @@ void display(const set<uint8_t>& a_leds, uint32_t a_color) {
 // const set<uint8_t> andi = { 37, 38, 39, 40 };
 // const set<uint8_t> wilma = { 26, 27, 28, 37, 38 };
 // const set<uint8_t> nini = { 36, 37, 38, 39, 59, 60, 61, 73, 72 };
+
+#endif
