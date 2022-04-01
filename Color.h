@@ -28,7 +28,7 @@ struct Color {
   }
 
   String toString() {
-    int number;
+    int number = 0;
     number += r << 16;
     number += g << 8;
     number += b;

@@ -2,6 +2,7 @@
 #define PIXELSET__H
 
 #include <set>
+#include <algorithm>
 
 template<typename T>
 class set {
@@ -40,7 +41,7 @@ public:
   }
 
 private:
-  std::set<uint8_t> m_set;
+  std::set<T> m_set;
 };
 
 #endif

@@ -1,11 +1,11 @@
 {
   "utc_offset": 1,
-  "username": "QlockToo",
-  "password": "QlockToo",
+  "http_username": "QlockToo",
+  "http_password": "QlockToo",
   "startup_time": "07:00",
   "shutdown_time": "22:00",
-  "color": "#FFFFFF",
-  "auto_brightness": false,
-  "wifi_ssid": "FRITZ! Box 7412 Repeater",
-  "wifi_password": "54658123531998163263"
+  "color": "#00FF2A",
+  "adaptive_luminosity": false,
+  "wifi_ssid": "",
+  "wifi_password": ""
 }

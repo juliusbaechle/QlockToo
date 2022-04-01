@@ -126,17 +126,27 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="GermanDisplay.h" />
-    <ClInclude Include="Server.h" />
+    <ClInclude Include="QlockServer.h" />
     <ClInclude Include="Display.h" />
-    <ClInclude Include="PixelSet.h" />
+    <ClInclude Include="MySet.h" />
+    <ClInclude Include="QlockToo.h" />
+    <ClInclude Include="Specials.h" />
     <ClInclude Include="SwabianDisplay.h" />
-    <ClInclude Include="Timing.h" />
+    <ClInclude Include="QlockClock.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="WebsiteHandler.h" />
     <ClInclude Include="__vm\.QlockToo.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AccessPointHandler.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="GermanDisplay.cpp" />
+    <ClCompile Include="QlockClock.cpp" />
     <ClCompile Include="Configuration.cpp" />
+    <ClCompile Include="QlockServer.cpp" />
+    <ClCompile Include="QlockToo.cpp" />
+    <ClCompile Include="SwabianDisplay.cpp" />
+    <ClCompile Include="WebsiteHandler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
