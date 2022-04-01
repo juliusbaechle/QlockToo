@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <WString.h>
-#include <Adafruit_NeoPixel.h>
 
 struct Color {
   uint8_t r = 255;
@@ -44,11 +43,6 @@ struct Color {
     g = ((uint16_t)g * a_perc) / 100;
     b = ((uint16_t)b * a_perc) / 100;
     return *this;
-  }
-
-  uint32_t toInt() {
-    uint8_t w = min({ r, g, b });
-    return Adafruit_NeoPixel::Color(r - w, g - w, b - w, w);
   }
 };
 

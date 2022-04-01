@@ -10,9 +10,14 @@
     <ClInclude Include="Timing.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="Color.h" />
-    <ClInclude Include="__vm\.ClockTwo.vsarduino.h" />
+    <ClInclude Include="GermanDisplay.h" />
+    <ClInclude Include="SwabianDisplay.h" />
+    <ClInclude Include="__vm\.QlockToo.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="QlockToo.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Configuration.cpp" />
   </ItemGroup>
 </Project>

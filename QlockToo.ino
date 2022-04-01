@@ -1,8 +1,7 @@
 // TODO:
-// - Persisted configuration-structure
-// - Push params from website without reload
-// - Enhanced website stylesheets
+// - Add specials like heart, names, etc.
 // - Refactor/Simplify code
+// - Enhanced website stylesheets
 
 #include "Timing.h"
 #include "Server.h"
@@ -27,7 +26,7 @@ uint8_t getAutoBrightness() {
 }
 
 uint8_t getBrightness() {
-  if (shutdown)
+  if (!active)
     return 0;
   if (config.autoBrightness())
     return getAutoBrightness();
@@ -36,20 +35,18 @@ uint8_t getBrightness() {
 
 void setup() {
   Serial.begin(115200);
-  SPIFFS.begin(true);
+  SPIFFS.begin(true);  
   config = Configuration::load();
   WiFi.begin(config.wiFiSsid().c_str(), config.wiFiPassword().c_str());
   WiFi.setHostname("QlockToo");
   setupServer();
-  updateRTC();
-  pixels.show();
 }
 
 bool updateNightTime(Time a_time) {
-  if (a_time == config.shutdownTime())
-    shutdown = true;
   if (a_time == config.startupTime())
-    shutdown = false;
+    active = true;
+  if (a_time == config.shutdownTime())
+    active = false;
 }
 
 void update() {
@@ -57,8 +54,12 @@ void update() {
   time.addHours(config.utcOffset());
   updateNightTime(time);
 
-  uint32_t color = config.color().dimm(getBrightness()).toInt();
-  displayTime(time, color);
+  Color color = config.color().dimm(getBrightness());
+  if (special == "") {
+    displayTime(time, color);
+  } else {
+    displaySpecial(special, color);
+  }
 
   if (WiFi.isConnected())
     updateRTC();

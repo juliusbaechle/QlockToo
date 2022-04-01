@@ -2,6 +2,7 @@
 #define ACCESSPOINTHANDLER__H
 
 #include <ESPAsyncWebServer.h>
+#include "Configuration.h"
 
 class AccessPointHandler : public AsyncWebHandler {
 public:
