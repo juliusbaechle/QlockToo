@@ -1,6 +1,4 @@
-// TODO:
-// - Make HttpPassword/Username editable
-// - Enhanced website stylesheets
+// TODO: Enhanced website stylesheets
 
 #include "Specials.h"
 #include "GermanDisplay.h"
