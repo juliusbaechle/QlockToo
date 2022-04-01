@@ -29,16 +29,16 @@ public:
 private:
   void handleGetRequest(AsyncWebServerRequest* request) {
     if (request->url() == "/logged-out")
-      request->send(SPIFFS, "/logout.html");
+      return request->send(SPIFFS, "/logout.html");
 
     if (!request->authenticate(config.username().c_str(), config.password().c_str()))
       return request->requestAuthentication();
 
-    if (request->url() == "/style.css")
-      request->send(SPIFFS, "/style.css", "text/css");
-
     if (request->url() == "/")
       request->send(SPIFFS, "/index.html", "text/html", false, getValue);
+
+    if (request->url() == "/style.css")
+      request->send(SPIFFS, "/style.css", "text/css");
   }
 
   void handlePutRequest(AsyncWebServerRequest* request) {

@@ -9,6 +9,9 @@ StaticJsonDocument<1024> doc;
 Configuration Configuration::load() {
   auto file = SPIFFS.open("/config.json", FILE_READ);
   if (!file) Serial.println("failed to read config");
+  Serial.println("Configuration: ");
+  Serial.println(file.readString());
+  file.seek(0);
   deserializeJson(doc, file);
   file.close();
 
@@ -38,6 +41,6 @@ void Configuration::save() {
 
   auto file = SPIFFS.open("/config.json", FILE_WRITE);
   if (!file) Serial.println("failed to write config");
-  serializeJson(doc, file);
+  serializeJsonPretty(doc, file);
   file.close();
 }
