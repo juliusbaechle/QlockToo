@@ -1,5 +1,5 @@
-# Qlocktwo
-Clone of Clocktwo using Arduino
+# QlockToo
+Clone of ClockTwo using Arduino
 
  Setup
 --------------------------------------
