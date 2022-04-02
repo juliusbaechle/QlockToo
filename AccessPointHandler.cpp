@@ -6,10 +6,22 @@ void AccessPointHandler::handleRequest(AsyncWebServerRequest *request) {
   Serial.print("request on ap: ");
   Serial.println(request->url());
 
-  if (request->url() == "/submit")
+  if (request->url() == "/submit") {
     onSubmit(request);
+    return request->send(SPIFFS, "/credentials.html", "text/html");
+  }
 
-  request->send(SPIFFS, "/credentials.html", "text/html", false, [this](String str) { return getValue(str); });
+  if (request->url() == "/credentials.css")
+    return request->send(SPIFFS, "/credentials.css", "text/css");
+  if (request->url() == "/credentials.js")
+    return request->send(SPIFFS, "/credentials.js", "text/javascript");
+  if (request->url() == "/icon.png")
+    return request->send(SPIFFS, "/icon.png", "image/png");
+  if (request->url() == "/eye.png")
+    return request->send(SPIFFS, "/eye.png", "image/png");
+  if (request->url() == "/eye_slash.png")
+    return request->send(SPIFFS, "/eye_slash.png", "image/png");
+  return request->send(SPIFFS, "/credentials.html", "text/html");
 }
 
 void AccessPointHandler::onSubmit(AsyncWebServerRequest* a_request) {
@@ -18,12 +30,4 @@ void AccessPointHandler::onSubmit(AsyncWebServerRequest* a_request) {
   if (a_request->hasParam("password"))
     m_qlock.setWifiPassword(a_request->getParam("password")->value());
   WiFi.begin(m_qlock.wifiSsid().c_str(), m_qlock.wifiPassword().c_str());
-}
-
-String AccessPointHandler::getValue(const String& a_var) {
-  if (a_var == "SSID")
-    return m_qlock.wifiSsid();
-  if (a_var == "PASSWORD")
-    return m_qlock.wifiPassword();
-  return "INVALID";
 }

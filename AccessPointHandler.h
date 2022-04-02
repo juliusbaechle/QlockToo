@@ -14,7 +14,6 @@ public:
 
 private:
   void onSubmit(AsyncWebServerRequest* a_request);
-  String getValue(const String& a_var);
 
 private:
   QlockToo& m_qlock;

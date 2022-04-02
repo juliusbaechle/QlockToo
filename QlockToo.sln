@@ -41,10 +41,7 @@ Global
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\SPIFFS\SPIFFS-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\WiFi\WiFi-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.6\libraries\Wire\Wire-1.0.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		C:\Users\julius.baechle\Documents\Arduino\libraries\Adafruit_NeoPixel\Adafruit_NeoPixel-1.7.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\Documents\Arduino\libraries\ArduinoJson\ArduinoJson-6.18.2.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		C:\Users\julius.baechle\Documents\Arduino\libraries\AsyncTCP\AsyncTCP-1.1.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		C:\Users\julius.baechle\Documents\Arduino\libraries\ESPAsyncWebServer\ESPAsyncWebServer-1.2.3.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\Documents\Arduino\libraries\NTPClient\NTPClient-3.2.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		C:\Users\julius.baechle\Documents\Arduino\libraries\AsyncTCP\AsyncTCP-1.1.1.vcxitems*{d6386c8a-08a2-456a-ad61-4a89448d0c5c}*SharedItemsImports = 9
 	EndGlobalSection

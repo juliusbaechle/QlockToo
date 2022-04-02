@@ -16,15 +16,19 @@ void WebsiteHandler::handleRequest(AsyncWebServerRequest *request) {
 void WebsiteHandler::handleGetRequest(AsyncWebServerRequest* request) {
   if (request->url() == "/logged-out")
     return request->send(SPIFFS, "/logout.html");
-
+    
   if (!request->authenticate(m_qlock.httpUsername().c_str(), m_qlock.httpPassword().c_str()))
     return request->requestAuthentication();
-
+    
   if (request->url() == "/")
-    request->send(SPIFFS, "/index.html", "text/html", false, [this](String str) { return getValue(str); });
-
-  if (request->url() == "/style.css")
-    request->send(SPIFFS, "/style.css", "text/css");
+    return request->send(SPIFFS, "/index.html", "text/html", false, [this](String str) { return getValue(str); });
+  if (request->url() == "/index.css")
+    return request->send(SPIFFS, "/index.css", "text/css");
+  if (request->url() == "/index.js")
+    return request->send(SPIFFS, "/index.js", "text/javascript");
+  if (request->url() == "/icon.png")
+    return request->send(SPIFFS, "/icon.png", "image/png");
+  request->send(404);
 }
 
 void WebsiteHandler::handlePutRequest(AsyncWebServerRequest* request) {

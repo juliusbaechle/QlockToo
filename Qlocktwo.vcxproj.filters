@@ -33,8 +33,8 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="QlockToo.h" />
-    <ClInclude Include="__vm\.QlockToo.vsarduino.h" />
     <ClInclude Include="Specials.h" />
+    <ClInclude Include="__vm\.QlockToo.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="QlockToo.ino" />
