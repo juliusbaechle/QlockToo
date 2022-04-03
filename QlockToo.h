@@ -24,8 +24,11 @@ public:
   String wifiPassword() const { return m_config.wifiPassword(); }
   void setWifiPassword(String a_password) { m_config.setWifiPassword(a_password); }
 
-  Color color() const { return m_config.color(); }
-  void setColor(Color a_color);
+  Color foregroundColor() const { return m_config.foregroundColor(); }
+  void setForegroundColor(Color a_color);
+
+  Color backgroundColor() const { return m_config.backgroundColor(); }
+  void setBackgroundColor(Color a_color);
 
   bool adaptiveLuminosity() const { return m_config.adaptiveLuminosity(); }
   void setAdaptiveLuminosity(bool a_autoBrightness);

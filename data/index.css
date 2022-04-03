@@ -14,7 +14,8 @@ p {
   font-weight: bold
 }
 
-#btnColor {
+#btnForegroundColor,
+#btnBackgroundColor {
   font-size: 32px;
   height: 60px;
   width: 150px;
@@ -22,7 +23,8 @@ p {
   background: red;
 }
 
-#colorSliderPanel {
+#foregroundColorSpan,
+#backgroundColorSpan {
   display: grid;
   grid-template-columns: 70px 150px;
   column-gap: 20px;
@@ -34,7 +36,7 @@ p {
 
 #activeTimePanel {
   display: grid;
-  grid-template-columns: 80px 80px 80px;
+  grid-template-columns: 80px 80px;
   column-gap: 20px;
   row-gap: 15px;
   justify-content: center;

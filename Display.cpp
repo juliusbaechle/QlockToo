@@ -27,18 +27,20 @@ uint32_t Display::toInt(Color a_color) {
   return Adafruit_NeoPixel::Color(a_color.r - w, a_color.g - w, a_color.b - w, w);
 }
 
-void Display::display(const set<uint8_t>& a_leds, Color a_color) {
-  uint32_t color = toInt(a_color);
+void Display::display(const set<uint8_t>& a_leds, Color a_foreground, Color a_background) {
+  uint32_t foreground = toInt(a_foreground);
+  uint32_t background = toInt(a_background);
+
   for (int i = 0; i < NUMPIXELS; i++)
     a_leds.contains(i)
-    ? m_pixels.setPixelColor(i, color)
-    : m_pixels.setPixelColor(i, 0);
+    ? m_pixels.setPixelColor(i, foreground)
+    : m_pixels.setPixelColor(i, background);
   m_pixels.show();
 }
 
-void Display::displaySpecial(String a_special, Color a_color) {
+void Display::displaySpecial(String a_special, Color a_foreground, Color a_background) {
   set<uint8_t> leds = m_specials.at(a_special);
-  display(leds, a_color);
+  display(leds, a_foreground, a_background);
 }
 
 std::vector<String> Display::possibleSpecials() const {

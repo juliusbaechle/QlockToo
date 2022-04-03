@@ -25,13 +25,14 @@ void QlockToo::updateDisplay() {
   time.addHours(m_config.utcOffset());
   updateNightMode(time);
 
-  Color color = m_config.color();
-  color.dimm(getRelBrightnessPerc());
+  auto brightness = getRelBrightnessPerc();
+  Color foreground = foregroundColor().dimm(brightness);
+  Color background = backgroundColor().dimm(brightness);
 
   if (m_special == "") {
-    m_display.displayTime(time, color);
+    m_display.displayTime(time, foreground, background);
   } else {
-    m_display.displaySpecial(m_special, color);
+    m_display.displaySpecial(m_special, foreground, background);
   }
 }
 
@@ -77,9 +78,14 @@ uint8_t QlockToo::getRelBrightnessPerc() {
   return 100;
 }
 
-void QlockToo::setColor(Color a_color) {
-  m_config.setColor(a_color); 
+void QlockToo::setForegroundColor(Color a_color) {
+  m_config.setForegroundColor(a_color);
   updateDisplay(); 
+}
+
+void QlockToo::setBackgroundColor(Color a_color) {
+  m_config.setBackgroundColor(a_color);
+  updateDisplay();
 }
 
 void QlockToo::setAdaptiveLuminosity(bool a_autoBrightness) {

@@ -25,24 +25,15 @@ function initialize() {
 	document.body.appendChild(select);
 }
 
-function logout() {
+function sendShutdownTime(element) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET", "/logout", true);
-	xhr.send();
-	setTimeout(function () { window.open("/logged-out", "_self"); }, 1000);
-}
-
-function sendShutdownTime() {
-	var value = document.getElementById("inpShutdownTime").value;
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/shutdown_time?value=" + value, true);
+	xhr.open("PUT", "/shutdown_time?value=" + element.value, true);
 	xhr.send();
 }
 
-function sendStartupTime() {
-	var value = document.getElementById("inpStartupTime").value;
+function sendStartupTime(element) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/startup_time?value=" + value, true);
+	xhr.open("PUT", "/startup_time?value=" + element.value, true);
 	xhr.send();
 }
 
@@ -97,34 +88,53 @@ class Color {
 	}
 }
 
-function currentColor() {
+function currentForegroundColor() {
 	var c = Color.fromHsv(
-		Math.round(document.getElementById("sldHue").value),
-		Math.round(document.getElementById("sldSaturation").value),
-		Math.round(document.getElementById("sldValue").value)
+		Math.round(document.getElementById("sldForegroundHue").value),
+		Math.round(document.getElementById("sldForegroundSaturation").value),
+		Math.round(document.getElementById("sldForegroundValue").value)
 	);
 	return c.toString();
 }
 
-function updateColor() {
-	document.getElementById("btnColor").style.background = currentColor();
+function updateForegroundColor() {
+	document.getElementById("btnForegroundColor").style.background = currentForegroundColor();
 }
 
-function sendColor() {
+function sendForegroundColor() {
 	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/color?value=" + encodeURIComponent(currentColor()), true);
+	xhr.open("PUT", "/foreground_color?value=" + encodeURIComponent(currentForegroundColor()), true);
+	xhr.send();
+}
+
+function currentBackgroundColor() {
+	var c = Color.fromHsv(
+		Math.round(document.getElementById("sldBackgroundHue").value),
+		Math.round(document.getElementById("sldBackgroundSaturation").value),
+		Math.round(document.getElementById("sldBackgroundValue").value)
+	);
+	return c.toString();
+}
+
+function updateBackgroundColor() {
+	document.getElementById("btnBackgroundColor").style.background = currentBackgroundColor();
+}
+
+function sendBackgroundColor() {
+	var xhr = new XMLHttpRequest();
+	xhr.open("PUT", "/background_color?value=" + encodeURIComponent(currentBackgroundColor()), true);
 	xhr.send();
 }
 
 function toggleAutoBrightness(element) {
-	var inpValue = document.getElementById("inpValue");
-	var sldValue = document.getElementById("sldValue");
+	var inpValue = document.getElementById("foregroundValueSpan");
+	var sldValue = document.getElementById("sldForegroundValue");
 	
 	if(element.checked) {
-		document.getElementById("sldValue").value = "255";
+		document.getElementById("sldForegroundValue").value = "255";
 		inpValue.style.display = "none";
 		sldValue.style.display = "none";
-		updateColor();
+		updateForegroundColor();
 	} else{
 		inpValue.style.display = "block";
 		sldValue.style.display = "block";

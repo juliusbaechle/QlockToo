@@ -14,18 +14,15 @@ void WebsiteHandler::handleRequest(AsyncWebServerRequest *request) {
 }
 
 void WebsiteHandler::handleGetRequest(AsyncWebServerRequest* request) {
-  if (request->url() == "/logged-out")
-    return request->send(SPIFFS, "/logout.html");
-    
   if (!request->authenticate(m_qlock.httpUsername().c_str(), m_qlock.httpPassword().c_str()))
     return request->requestAuthentication();
     
   if (request->url() == "/")
     return request->send(SPIFFS, "/index.html", "text/html", false, [this](String str) { return getValue(str); });
+  if (request->url() == "/index.js")
+    return request->send(SPIFFS, "/index.js", "text/javascript", false, [this](String str) { return getValue(str); });
   if (request->url() == "/index.css")
     return request->send(SPIFFS, "/index.css", "text/css");
-  if (request->url() == "/index.js")
-    return request->send(SPIFFS, "/index.js", "text/javascript");
   if (request->url() == "/icon.png")
     return request->send(SPIFFS, "/icon.png", "image/png");
   request->send(404);
@@ -40,8 +37,10 @@ void WebsiteHandler::handlePutRequest(AsyncWebServerRequest* request) {
 
   if (request->url() == "/active")
     m_qlock.setActive(request->getParam("value")->value() == "true");
-  if (request->url() == "/color")
-    m_qlock.setColor(Color::parse(request->getParam("value")->value()));
+  if (request->url() == "/foreground_color")
+    m_qlock.setForegroundColor(Color::parse(request->getParam("value")->value()));
+  if (request->url() == "/background_color")
+    m_qlock.setBackgroundColor(Color::parse(request->getParam("value")->value()));
   if (request->url() == "/startup_time")
     m_qlock.setStartupTime(Time::parseMinString(request->getParam("value")->value()));
   if (request->url() == "/shutdown_time")
@@ -76,8 +75,10 @@ String WebsiteHandler::getValue(const String& a_var) {
     return m_qlock.shutdownTime().toMinString();
   if (a_var == "AUTO_BRIGHTNESS")
     return m_qlock.adaptiveLuminosity() ? "checked" : "";
-  if (a_var == "COLOR")
-    return m_qlock.color().toString();
+  if (a_var == "FOREGROUND_COLOR")
+    return m_qlock.foregroundColor().toString();
+  if (a_var == "BACKGROUND_COLOR")
+    return m_qlock.backgroundColor().toString();
   if (a_var == "UTC_OFFSET")
     return String(m_qlock.utcOffset());
   if (a_var == "POSSIBLE_SPECIALS")

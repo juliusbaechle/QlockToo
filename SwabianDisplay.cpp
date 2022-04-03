@@ -67,11 +67,11 @@ set<uint8_t> SwabianDisplay::getHours(uint8_t a_hour, uint8_t a_minute) {
   return {};
 }
 
-void SwabianDisplay::displayTime(Time a_time, Color a_color) {
+void SwabianDisplay::displayTime(Time a_time, Color a_foreground, Color a_background) {
   set<uint8_t> leds;
   leds += getCorners(a_time.minute % 5);
   leds += es + isch;
   leds += getMinutes(a_time.minute);
   leds += getHours(a_time.hour, a_time.minute);
-  display(leds, a_color);
+  display(leds, a_foreground, a_background);
 }

@@ -7,7 +7,7 @@ class GermanDisplay : public Display {
 public:
   GermanDisplay(const std::map<String, set<uint8_t>> a_specials) : Display(a_specials) {};
 
-  void displayTime(Time a_time, Color a_color) override;
+  void displayTime(Time a_time, Color a_foreground, Color a_background) override;
 
 private:
   set<uint8_t> getMinutes(uint8_t a_minute);

@@ -14,8 +14,11 @@ public:
   String httpPassword() const { return m_httpPassword; }
   void setHttpPassword(String a_password) { m_httpPassword = a_password; save(); }
 
-  Color color() const { return m_color; }
-  void setColor(Color a_color) { m_color = a_color; save(); }
+  Color foregroundColor() const { return m_foregroundColor; }
+  void setForegroundColor(Color a_color) { m_foregroundColor = a_color; save(); }
+
+  Color backgroundColor() const { return m_backgroundColor; }
+  void setBackgroundColor(Color a_color) { m_backgroundColor = a_color; save(); }
 
   Time startupTime() const { return m_startupTime; }
   void setStartupTime(Time a_time) { m_startupTime = a_time; save(); }
@@ -46,7 +49,8 @@ private:
   String m_httpPassword;
   Time m_startupTime;
   Time m_shutdownTime;
-  Color m_color;
+  Color m_foregroundColor;
+  Color m_backgroundColor;
   bool m_adaptiveLuminosity;
 };
 

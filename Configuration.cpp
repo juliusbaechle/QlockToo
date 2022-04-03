@@ -21,7 +21,8 @@ Configuration Configuration::load() {
   config.m_httpPassword = doc["http_password"].as<String>();
   config.m_startupTime = Time::parseMinString(doc["startup_time"]);
   config.m_shutdownTime = Time::parseMinString(doc["shutdown_time"]);
-  config.m_color = Color::parse(doc["color"]);
+  config.m_foregroundColor = Color::parse(doc["foreground_color"]);
+  config.m_backgroundColor = Color::parse(doc["background_color"]);
   config.m_adaptiveLuminosity = doc["adaptive_luminosity"];
   config.m_wifiSsid = doc["wifi_ssid"].as<String>();
   config.m_wifiPassword = doc["wifi_password"].as<String>();
@@ -34,7 +35,8 @@ void Configuration::save() {
   doc["http_password"] = httpPassword();
   doc["startup_time"] = startupTime().toMinString();
   doc["shutdown_time"] = shutdownTime().toMinString();
-  doc["color"] = color().toString();
+  doc["foreground_color"] = foregroundColor().toString();
+  doc["background_color"] = backgroundColor().toString();
   doc["adaptive_luminosity"] = adaptiveLuminosity();
   doc["wifi_ssid"] = wifiSsid();
   doc["wifi_password"] = wifiPassword();
