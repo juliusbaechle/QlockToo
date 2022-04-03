@@ -9,22 +9,12 @@ struct Time {
   uint8_t minute = 0;
   uint8_t second = 0;
 
-  bool operator< (const Time& a_time) const {
-    if (hour < a_time.hour)
-      return true;
-    if (minute < a_time.minute)
-      return true;
-    if (second < a_time.second)
-      return true;
-    return false;
-  }
-
-  bool operator== (const Time& a_time) const {
-    if (hour != a_time.hour)
+  bool operator<= (const Time& a_time) const {
+    if (hour > a_time.hour)
       return false;
-    if (minute != a_time.minute)
+    if (minute > a_time.minute)
       return false;
-    if (second != a_time.second)
+    if (second > a_time.second)
       return false;
     return true;
   }

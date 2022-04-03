@@ -36,9 +36,6 @@ public:
   int8_t utcOffset() const { return m_config.utcOffset(); }
   void setUtcOffset(int8_t a_offset);
 
-  bool isActive() const { return m_active; }
-  void setActive(bool a_active);
-
   std::vector<String> possibleSpecials() const { return m_display.possibleSpecials(); }
   String getSpecial() const { return m_special; }
   void setSpecial(const String& a_special);
@@ -50,11 +47,9 @@ public:
   void setShutdownTime(Time a_time);
 
 private:
-  void updateNightMode(Time a_time);
-  void onNightTimeChanged();
   void updateDisplay();
-  uint8_t getAutoBrightness();
-  uint8_t getRelBrightnessPerc();
+  uint8_t getBrightness();
+  bool isNightTime(Time a_time);
 
 private:
   Display& m_display;
@@ -62,7 +57,6 @@ private:
   QlockClock m_clock;
   uint64_t m_nextDisplayUpdateMs = 0;
   String m_special = "";
-  bool m_active = true;
 };
 
 #endif

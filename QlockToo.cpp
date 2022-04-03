@@ -23,9 +23,8 @@ void QlockToo::updateDisplay() {
 
   Time time = m_clock.currentTime();
   time.addHours(m_config.utcOffset());
-  updateNightMode(time);
 
-  auto brightness = getRelBrightnessPerc();
+  int brightness = isNightTime(time) ? 0 : getBrightness();
   Color foreground = foregroundColor().dimm(brightness);
   Color background = backgroundColor().dimm(brightness);
 
@@ -36,25 +35,18 @@ void QlockToo::updateDisplay() {
   }
 }
 
-void QlockToo::updateNightMode(Time a_time) {
-  if (a_time == m_config.startupTime())
-    m_active = true;
-  if (a_time == m_config.shutdownTime())
-    m_active = false;
-}
-
-void QlockToo::onNightTimeChanged() {
-  Time time = m_clock.currentTime();
-  time.addHours(m_config.utcOffset());
-
-  if (startupTime() < shutdownTime()) { 
-    m_active = startupTime() < time && time < shutdownTime(); // 07:00 - 16:00
-  } else { 
-    m_active = startupTime() < time || time < shutdownTime(); // 16:00 - 07:00
+bool QlockToo::isNightTime(Time a_time) {
+  if (startupTime() <= shutdownTime()) {
+    return (shutdownTime() <= a_time) || (a_time <= startupTime()); // 23:00 - 07:00
+  } else {
+    return (shutdownTime() <= a_time) && (a_time <= startupTime()); // 07:00 - 23:00
   }
 }
 
-uint8_t QlockToo::getAutoBrightness() {
+uint8_t QlockToo::getBrightness() {
+  if (!m_config.adaptiveLuminosity())
+    return 100;
+
   int sensor = analogRead(PHOTORESISTOR_PIN);
   int limit = map(sensor, 0, 2500, 0, 100);
   if (sensor > 2500)
@@ -65,17 +57,9 @@ uint8_t QlockToo::getAutoBrightness() {
     value -= 3;
   if (limit > value + 3)
     value += 3;
-  if (limit < 10)
+  if (value < 10)
     value = 10;
   return value;
-}
-
-uint8_t QlockToo::getRelBrightnessPerc() {
-  if (!m_active)
-    return 0;
-  if (m_config.adaptiveLuminosity())
-    return getAutoBrightness();
-  return 100;
 }
 
 void QlockToo::setForegroundColor(Color a_color) {
@@ -98,11 +82,6 @@ void QlockToo::setUtcOffset(int8_t a_offset) {
   updateDisplay(); 
 }
 
-void QlockToo::setActive(bool a_active) {
-  m_active = a_active; 
-  updateDisplay(); 
-}
-
 void QlockToo::setSpecial(const String& a_special) {
   if (a_special == "")
     m_special = "";
@@ -116,12 +95,10 @@ void QlockToo::setSpecial(const String& a_special) {
 
 void QlockToo::setStartupTime(Time a_time) {
   m_config.setStartupTime(a_time); 
-  onNightTimeChanged(); 
   updateDisplay(); 
 }
 
 void QlockToo::setShutdownTime(Time a_time) {
   m_config.setShutdownTime(a_time); 
-  onNightTimeChanged(); 
   updateDisplay(); 
 }

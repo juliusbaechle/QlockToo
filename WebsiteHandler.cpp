@@ -35,8 +35,6 @@ void WebsiteHandler::handlePutRequest(AsyncWebServerRequest* request) {
   Serial.print("value: ");
   Serial.println(request->getParam("value")->value());
 
-  if (request->url() == "/active")
-    m_qlock.setActive(request->getParam("value")->value() == "true");
   if (request->url() == "/foreground_color")
     m_qlock.setForegroundColor(Color::parse(request->getParam("value")->value()));
   if (request->url() == "/background_color")
@@ -67,18 +65,16 @@ inline String toJsonArray(const std::vector<String> a_specials) {
 }
 
 String WebsiteHandler::getValue(const String& a_var) {
-  if (a_var == "STATE")
-    return m_qlock.isActive() ? "checked" : "";
-  if (a_var == "STARTUP_TIME")
-    return m_qlock.startupTime().toMinString();
-  if (a_var == "SHUTDOWN_TIME")
-    return m_qlock.shutdownTime().toMinString();
   if (a_var == "AUTO_BRIGHTNESS")
     return m_qlock.adaptiveLuminosity() ? "checked" : "";
   if (a_var == "FOREGROUND_COLOR")
     return m_qlock.foregroundColor().toString();
   if (a_var == "BACKGROUND_COLOR")
     return m_qlock.backgroundColor().toString();
+  if (a_var == "STARTUP_TIME")
+    return m_qlock.startupTime().toMinString();
+  if (a_var == "SHUTDOWN_TIME")
+    return m_qlock.shutdownTime().toMinString();
   if (a_var == "UTC_OFFSET")
     return String(m_qlock.utcOffset());
   if (a_var == "POSSIBLE_SPECIALS")

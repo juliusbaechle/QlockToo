@@ -1,5 +1,3 @@
-// TODO: Enhanced website stylesheets
-
 #include "Specials.h"
 #include "GermanDisplay.h"
 #include "QlockToo.h"

@@ -1,59 +1,63 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>QlockToo</title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">	
 		<link rel="stylesheet" href="index.css">
 		<link rel="icon" href="icon.png">
-		<meta name="viewport" content="width=device-width, initial-scale=1" >
+		<title>QlockToo Steuerung</title>
 	</head>
-	
-	<script src="index.js"></script>
-	
+  
 	<body onload="initialize()">
-		<div id="top">
-			<div id="logo-name">QlockToo Control</div>
-		</div>
-		
-		<div id="main">
-			<p id="activePanel">
-				State:
-				<label class="switch">
-				  <input type="checkbox" oninput="onActiveChanged(this)" %STATE%>
-				  <span class="slider round"></span>
-				</label>
-			</p>
+		<div id="container">
+			<h1>QlockToo Steuerung</h1>
 
-			<p id="foregroundColorPanel">
-				Adaptive Luminosity <input type="checkbox" onchange="toggleAutoBrightness(this)" id="cbxAutoBrightness">
-				<span id="foregroundColorSpan">
-					Color  <input type="range" onchange="sendForegroundColor()" oninput="updateForegroundColor()" id="sldForegroundHue" min="0" max="359" value="0" step="1">
-					Saturation <input type="range" onchange="sendForegroundColor()" oninput="updateForegroundColor()" id="sldForegroundSaturation" min="0" max="255" value="255" step="1">
-					<span id="foregroundValueSpan"> Brightness </span> <input type="range" onchange="sendForegroundColor()" oninput="updateForegroundColor()" id="sldForegroundValue" min="0" max="255" value="255" step="1">	
-				</span>
-				<button id="btnForegroundColor"></button>
-			</p>
-						
-			<p id="backgroundColorPanel">
-				<span id="backgroundColorSpan">
-					Color      <input type="range" onchange="sendBackgroundColor()" oninput="updateBackgroundColor()" id="sldBackgroundHue" min="0" max="359" value="0" step="1">
-					Saturation <input type="range" onchange="sendBackgroundColor()" oninput="updateBackgroundColor()" id="sldBackgroundSaturation" min="0" max="255" value="255" step="1">
-					Brightness <input type="range" onchange="sendBackgroundColor()" oninput="updateBackgroundColor()" id="sldBackgroundValue" min="0" max="255" value="255" step="1">	
-				</span>
-				<button id="btnBackgroundColor"></button>
-			</p>
+			<div id="control">
+				<div>
+					<h3>Adaptive Helligkeit</h3>
+					<label class="switch">
+					  <input type="checkbox" oninput="sendAdaptiveLuminosity(this)" %STATE%>
+					  <span class="slider round"></span>
+					</label>
+				</div>
 
-			<p id="activeTimePanel">
-				Startup <input type="time" id="inpStartupTime" onchange="sendStartupTime(this)" value="%STARTUP_TIME%">
-				Shutdown <input type="time" id="inpShutdownTime" onchange="sendShutdownTime(this)" value="%SHUTDOWN_TIME%">
-			</p>
-		
-			<p>
-				UTC Offset
-				<input type="range" id="sldUtcOffset" oninput="updateUtcOffset(this)" onchange="sendUtcOffset(this)" value="%UTC_OFFSET%" min="-12" max="12" value="0">
-				<span id="textUtcOffset">%UTC_OFFSET% h</span>
-			</p>
+				<div>
+					<h3>Vordergrundfarbe</h3>
+					<input type="color" id="inpForegroundColor" onchange="sendForegroundColor(this)" value="%FOREGROUND_COLOR%">
+				</div>
+
+				<div>
+					<h3>Hintergrundfarbe</h3>
+					<input type="color" id="inpBackgroundColor" onchange="sendBackgroundColor(this)" value="%BACKGROUND_COLOR%">
+				</div>
+
+				<div>
+					<h3>Nachtmodus</h3>
+					<div>
+						<input type="time" id="inpShutdownTime" onchange="sendShutdownTime(this)" value="%SHUTDOWN_TIME%"> bis
+						<input type="time" id="inpStartupTime" onchange="sendStartupTime(this)" value="%STARTUP_TIME%">
+					</div>
+				</div>
+
+				<div>
+					<h3 id="headerTimeZone">Zeitzone</h3>
+					<input type="range" id="sldUtcOffset" oninput="updateUtcOffset(this)" onchange="sendUtcOffset(this)" value="%UTC_OFFSET%" min="-12" max="12" value="0">
+				</div>
+					
+				<div id="specials">
+					<h3>Spezialeffekt</h3>
+					<select type="select" id="specialSelect" onchange="sendSpecial(this)"></select>
+				</div>
+			</div>
 		</div>
-	</body>
+
+		<div id="contact">
+			Software by Julius Bächle <br>
+			Developed on <a href="https://github.com/juliusbaechle/QlockToo">GitHub</a>
+		</div>
+	</body>  
+  
+	<script src="index.js"></script>
 </html>
