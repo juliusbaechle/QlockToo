@@ -3,7 +3,7 @@
   "qlock_password": "QlockToo",
   "startup_time": "07:00",
   "shutdown_time": "22:00",
-  "foreground_color": "#00FF2A",
+  "foreground_color": "#FFFFFF",
   "background_color": "#000000",
   "adaptive_luminosity": false,
   "wifi_ssid": "",
