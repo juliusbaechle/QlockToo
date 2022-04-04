@@ -8,6 +8,7 @@
 void QlockServer::initialize(){
   WiFi.begin(m_qlock.wifiSsid().c_str(), m_qlock.wifiPassword().c_str());
   WiFi.setHostname(m_qlock.qlockName().c_str());
+  WiFi.setAutoReconnect(false);
 
   m_server.addHandler(new WebsiteHandler(m_qlock)).setFilter(ON_STA_FILTER);
   m_server.addHandler(new AccessPointHandler(m_qlock)).setFilter(ON_AP_FILTER);
@@ -17,6 +18,12 @@ void QlockServer::initialize(){
 void QlockServer::update() {
   if(!m_connected)
     m_dnsServer.processNextRequest();
+
+  if (millis() - m_reconnectMs > 5 * 1000) {
+    if(!WiFi.isConnected())
+      WiFi.reconnect();
+    m_reconnectMs = millis();
+  }    
 
   if (WiFi.isConnected())
     m_disconnectMs = millis();
@@ -28,12 +35,12 @@ void QlockServer::setWifiMode(bool a_connected) {
   m_connected = a_connected;
 
   if (m_connected) {
-    Serial.println("enabled station mode");
-    WiFi.mode(WIFI_STA);
+    Serial.println("disabled access point");
+    WiFi.mode(WIFI_MODE_STA);
     m_dnsServer.stop();
   } else {
-    Serial.println("enabled access point mode");
-    WiFi.mode(WIFI_AP);
+    Serial.println("enabled access point");
+    WiFi.mode(WIFI_MODE_APSTA);
     WiFi.softAP(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str());
     m_dnsServer.start(53, "*", WiFi.softAPIP());
   }

@@ -16,6 +16,7 @@ private:
 
 private:
   bool m_connected = true;
+  uint64_t m_reconnectMs = 0;
   uint64_t m_disconnectMs = 0;
   DNSServer m_dnsServer;
   AsyncWebServer m_server { 80 };
