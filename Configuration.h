@@ -8,11 +8,11 @@ class Configuration {
 public:
   static Configuration load();
 
-  String httpUsername() const { return m_httpUsername; }
-  void setHttpUsername(String a_username) { m_httpUsername = a_username; save(); }
+  String qlockName() const { return m_qlockName; }
+  void setQlockName(String a_username) { m_qlockName = a_username; save(); }
 
-  String httpPassword() const { return m_httpPassword; }
-  void setHttpPassword(String a_password) { m_httpPassword = a_password; save(); }
+  String qlockPassword() const { return m_qlockPassword; }
+  void setQlockPassword(String a_password) { m_qlockPassword = a_password; save(); }
 
   Color foregroundColor() const { return m_foregroundColor; }
   void setForegroundColor(Color a_color) { m_foregroundColor = a_color; save(); }
@@ -45,8 +45,8 @@ private:
   String m_wifiPassword;
   String m_wifiSsid;
   int8_t m_utcOffset;
-  String m_httpUsername;
-  String m_httpPassword;
+  String m_qlockName;
+  String m_qlockPassword;
   Time m_startupTime;
   Time m_shutdownTime;
   Color m_foregroundColor;

@@ -63,6 +63,9 @@
     <ClCompile Include="SwabianDisplay.cpp">
       <Filter>Display</Filter>
     </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Display</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Display">

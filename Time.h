@@ -9,16 +9,6 @@ struct Time {
   uint8_t minute = 0;
   uint8_t second = 0;
 
-  bool operator<= (const Time& a_time) const {
-    if (hour > a_time.hour)
-      return false;
-    if (minute > a_time.minute)
-      return false;
-    if (second > a_time.second)
-      return false;
-    return true;
-  }
-
   String toMinString() const {
     String strHour = hour > 9 ? String(hour) : "0" + String(hour);
     String strMinute = minute > 9 ? String(minute) : "0" + String(minute);
@@ -39,6 +29,24 @@ struct Time {
       a_hours += 24;
     hour += a_hours;
     hour %= 24;
+  }
+
+  bool operator <  (const Time& a_time) { return compare(a_time) == -1; }
+  bool operator <= (const Time& a_time) { return compare(a_time) !=  1; }
+  bool operator == (const Time& a_time) { return compare(a_time) ==  0; }
+  bool operator != (const Time& a_time) { return compare(a_time) !=  0; }
+  bool operator >= (const Time& a_time) { return compare(a_time) != -1; }
+  bool operator >  (const Time& a_time) { return compare(a_time) ==  1; }
+
+private:
+  int compare(const Time& a_time) const {
+    if (hour > a_time.hour) return 1;
+    if (hour < a_time.hour) return -1;
+    if (minute > a_time.minute) return 1;
+    if (minute < a_time.minute) return -1;
+    if (second > a_time.second) return 1;
+    if (second < a_time.second) return -1;
+    return 0;
   }
 };
 

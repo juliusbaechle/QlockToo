@@ -36,10 +36,10 @@ void QlockToo::updateDisplay() {
 }
 
 bool QlockToo::isNightTime(Time a_time) {
-  if (startupTime() <= shutdownTime()) {
-    return (shutdownTime() <= a_time) || (a_time <= startupTime()); // 23:00 - 07:00
+  if (shutdownTime() > startupTime()) {
+    return shutdownTime() <= a_time || a_time < startupTime(); // 23:00 - 07:00
   } else {
-    return (shutdownTime() <= a_time) && (a_time <= startupTime()); // 07:00 - 23:00
+    return shutdownTime() <= a_time && a_time < startupTime(); // 07:00 - 23:00
   }
 }
 

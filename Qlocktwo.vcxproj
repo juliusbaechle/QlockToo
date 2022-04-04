@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AccessPointHandler.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="GermanDisplay.cpp" />
     <ClCompile Include="QlockClock.cpp" />

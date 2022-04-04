@@ -14,7 +14,7 @@ void WebsiteHandler::handleRequest(AsyncWebServerRequest *request) {
 }
 
 void WebsiteHandler::handleGetRequest(AsyncWebServerRequest* request) {
-  if (!request->authenticate(m_qlock.httpUsername().c_str(), m_qlock.httpPassword().c_str()))
+  if (!request->authenticate(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str()))
     return request->requestAuthentication();
     
   if (request->url() == "/")
@@ -29,7 +29,7 @@ void WebsiteHandler::handleGetRequest(AsyncWebServerRequest* request) {
 }
 
 void WebsiteHandler::handlePutRequest(AsyncWebServerRequest* request) {
-  if (!request->authenticate(m_qlock.httpUsername().c_str(), m_qlock.httpPassword().c_str()))
+  if (!request->authenticate(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str()))
     return request->requestAuthentication();
 
   Serial.print("value: ");

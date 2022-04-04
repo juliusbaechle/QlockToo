@@ -12,11 +12,11 @@ public:
 
   void update();
 
-  String httpUsername() const { return m_config.httpUsername(); }
-  void setHttpUsername(String a_username) { m_config.setHttpUsername(a_username); }
+  String qlockName() const { return m_config.qlockName(); }
+  void setQlockName(String a_username) { m_config.setQlockName(a_username); }
 
-  String httpPassword() const { return m_config.httpPassword(); }
-  void setHttpPassword(String a_password) { m_config.setHttpPassword(a_password); }
+  String qlockPassword() const { return m_config.qlockPassword(); }
+  void setQlockPassword(String a_password) { m_config.setQlockPassword(a_password); }
 
   String wifiSsid() const { return m_config.wifiSsid(); }
   void setWifiSsid(String a_ssid) { m_config.setWifiSsid(a_ssid); }

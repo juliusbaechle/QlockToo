@@ -7,7 +7,7 @@
 
 void QlockServer::initialize(){
   WiFi.begin(m_qlock.wifiSsid().c_str(), m_qlock.wifiPassword().c_str());
-  WiFi.setHostname("QlockToo");
+  WiFi.setHostname(m_qlock.qlockName().c_str());
 
   m_server.addHandler(new WebsiteHandler(m_qlock)).setFilter(ON_STA_FILTER);
   m_server.addHandler(new AccessPointHandler(m_qlock)).setFilter(ON_AP_FILTER);
@@ -34,7 +34,7 @@ void QlockServer::setWifiMode(bool a_connected) {
   } else {
     Serial.println("enabled access point mode");
     WiFi.mode(WIFI_AP);
-    WiFi.softAP("QlockToo", "QlockToo");
+    WiFi.softAP(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str());
     m_dnsServer.start(53, "*", WiFi.softAPIP());
   }
 }
