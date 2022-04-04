@@ -24,3 +24,9 @@ Clone of ClockTwo using Arduino
 					Declare GermanDisplay or SwabianDisplay accordingly.
  Select specials: 	Open "Specials.h" and adjust the "specials" map. 
 					The server will automatically list the names in the server.
+					
+ How to use it
+--------------------------------------
+ Whenever the clock has no wifi credentials it will open a "QlockToo" network. Enter "QlockToo" as password. (defaults)
+ After connecting it will synchronize automatically via NTP.
+ In your home-network you can should be able to connect your QlockToo by "http://qlocktoo" or "http://qlocktoo.fritz.box" 
