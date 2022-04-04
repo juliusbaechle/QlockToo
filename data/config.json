@@ -6,7 +6,7 @@
   "foreground_color": "#00FF2A",
   "background_color": "#000000",
   "adaptive_luminosity": false,
-  "wifi_ssid": "FRITZ! Box 7412 Repeater",
-  "wifi_password": "Invalid Password"
+  "wifi_ssid": "",
+  "wifi_password": "",
   "utc_offset": 1,
 }

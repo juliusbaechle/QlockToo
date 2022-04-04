@@ -18,7 +18,7 @@
 				<div>
 					<h3>Adaptive Helligkeit</h3>
 					<label class="switch">
-					  <input type="checkbox" oninput="sendAdaptiveLuminosity(this)" %STATE%>
+					  <input type="checkbox" oninput="sendAdaptiveLuminosity(this)" %AUTO_BRIGHTNESS%>
 					  <span class="slider round"></span>
 					</label>
 				</div>
@@ -40,15 +40,15 @@
 						<input type="time" id="inpStartupTime" onchange="sendStartupTime(this)" value="%STARTUP_TIME%">
 					</div>
 				</div>
-
-				<div>
-					<h3 id="headerTimeZone">Zeitzone</h3>
-					<input type="range" id="sldUtcOffset" oninput="updateUtcOffset(this)" onchange="sendUtcOffset(this)" value="%UTC_OFFSET%" min="-12" max="12" value="0">
-				</div>
 					
 				<div id="specials">
 					<h3>Spezialeffekt</h3>
 					<select type="select" id="specialSelect" onchange="sendSpecial(this)"></select>
+				</div>
+
+				<div>
+					<h3 id="headerTimeZone">Zeitzone</h3>
+					<input type="range" id="sldUtcOffset" oninput="updateUtcOffset(this)" onchange="sendUtcOffset(this)" value="%UTC_OFFSET%" min="-12" max="12">
 				</div>
 			</div>
 		</div>
