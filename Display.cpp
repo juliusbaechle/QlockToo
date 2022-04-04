@@ -11,13 +11,13 @@ Display::Display(const std::map<String, set<uint8_t>>& a_specials)
 
 set<uint8_t> Display::getCorners(uint8_t a_minute) {
   set<uint8_t> leds;
-  if (a_minute == 1)
+  if (a_minute >= 1)
     leds += 112;
-  if (a_minute == 2)
+  if (a_minute >= 2)
     leds += 111;
-  if (a_minute == 3)
+  if (a_minute >= 3)
     leds += 110;
-  if (a_minute == 4)
+  if (a_minute >= 4)
     leds += 113;
   return leds;
 }
