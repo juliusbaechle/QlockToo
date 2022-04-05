@@ -12,10 +12,10 @@ public:
   void update();
 
 private:
-  void setWifiMode(bool a_connected);
+  void enableAccessPoint(bool a_enabled);
 
 private:
-  bool m_connected = true;
+  bool m_accessPointEnabled = true;
   uint64_t m_reconnectMs = 0;
   uint64_t m_disconnectMs = 0;
   DNSServer m_dnsServer;

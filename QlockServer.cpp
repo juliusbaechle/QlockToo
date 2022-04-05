@@ -16,32 +16,36 @@ void QlockServer::initialize(){
 }
 
 void QlockServer::update() {
-  if(!m_connected)
+  if(m_accessPointEnabled)
     m_dnsServer.processNextRequest();
 
   if (millis() - m_reconnectMs > 5 * 1000) {
+    m_reconnectMs = millis();
+    Serial.print("WiFi: ");
+    Serial.println(WiFi.isConnected());
     if(!WiFi.isConnected())
       WiFi.reconnect();
-    m_reconnectMs = millis();
-  }    
+  }
 
   if (WiFi.isConnected())
     m_disconnectMs = millis();
-  setWifiMode(millis() - m_disconnectMs < 10 * 1000);
+  bool accessPointEnabled = millis() - m_disconnectMs > 10 * 1000;
+  accessPointEnabled &= !m_qlock.isInNightMode();
+  enableAccessPoint(accessPointEnabled);
 }
 
-void QlockServer::setWifiMode(bool a_connected) {
-  if (m_connected == a_connected) return;
-  m_connected = a_connected;
+void QlockServer::enableAccessPoint(bool a_enabled) {
+  if (m_accessPointEnabled == a_enabled) return;
+  m_accessPointEnabled = a_enabled;
 
-  if (m_connected) {
-    Serial.println("disabled access point");
-    WiFi.mode(WIFI_MODE_STA);
-    m_dnsServer.stop();
-  } else {
+  if (m_accessPointEnabled) {
     Serial.println("enabled access point");
     WiFi.mode(WIFI_MODE_APSTA);
     WiFi.softAP(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str());
     m_dnsServer.start(53, "*", WiFi.softAPIP());
+  } else {    
+    Serial.println("disabled access point");
+    WiFi.mode(WIFI_MODE_STA);
+    m_dnsServer.stop();
   }
 }

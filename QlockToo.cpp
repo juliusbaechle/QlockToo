@@ -1,6 +1,5 @@
 #include "QlockToo.h"
 #include "GermanDisplay.h"
-#include <WiFi.h>
 
 #define PHOTORESISTOR_PIN 35
 
@@ -18,13 +17,11 @@ void QlockToo::update() {
 }
 
 void QlockToo::updateDisplay() {
-  Serial.print("WiFi: ");
-  Serial.println(WiFi.isConnected());
-
   Time time = m_clock.currentTime();
   time.addHours(m_config.utcOffset());
 
-  int brightness = isNightTime(time) ? 0 : getBrightness();
+  m_nightMode = isNightTime(time);
+  int brightness = m_nightMode ? 0 : getBrightness();
   Color foreground = foregroundColor().dimm(brightness);
   Color background = backgroundColor().dimm(brightness);
 

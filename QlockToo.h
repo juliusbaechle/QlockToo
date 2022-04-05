@@ -46,12 +46,15 @@ public:
   Time shutdownTime() const { return m_config.shutdownTime(); }
   void setShutdownTime(Time a_time);
 
+  bool isInNightMode() { return m_nightMode; }
+
 private:
   void updateDisplay();
   uint8_t getBrightness();
   bool isNightTime(Time a_time);
 
 private:
+  bool m_nightMode = false;
   Display& m_display;
   Configuration m_config;
   QlockClock m_clock;
