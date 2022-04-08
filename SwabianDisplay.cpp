@@ -51,7 +51,7 @@ set<uint8_t> SwabianDisplay::getMinutes(uint8_t a_minute) {
 }
 
 set<uint8_t> SwabianDisplay::getHours(uint8_t a_hour, uint8_t a_minute) {
-  uint8_t hour = (a_hour + (a_minute > 15)) % 12;
+  uint8_t hour = (a_hour + (a_minute >= 15)) % 12;
   if (hour == 0) return zwoelfe;
   if (hour == 1) return oise;
   if (hour == 2) return zwoie;

@@ -55,7 +55,7 @@ set<uint8_t> GermanDisplay::getMinutes(uint8_t a_minute) {
 }
 
 set<uint8_t> GermanDisplay::getHours(uint8_t a_hour, uint8_t a_minute) {
-  uint8_t hour = (a_hour + (a_minute > 15)) % 12;
+  uint8_t hour = (a_hour + (a_minute >= 15)) % 12;
   bool full = a_minute < 5;
 
   set<uint8_t> leds;
