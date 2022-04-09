@@ -11,7 +11,7 @@ void QlockToo::update() {
   m_clock.update();
 
   if (millis() > m_nextDisplayUpdateMs) {
-    m_nextDisplayUpdateMs = millis() + 900;
+    m_nextDisplayUpdateMs = millis() + 1000;
     updateDisplay();
   }
 }

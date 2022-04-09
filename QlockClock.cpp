@@ -31,7 +31,7 @@ Time QlockClock::currentTime() {
   Wire.endTransmission();
 
   Time time;
-  Wire.requestFrom(DS3231_I2C_ADDRESS, 4);
+  Wire.requestFrom(DS3231_I2C_ADDRESS, 3);
   time.second = hexToDec(Wire.read() & 0x7f);
   time.minute = hexToDec(Wire.read());
   time.hour = hexToDec(Wire.read() & 0x3f);
