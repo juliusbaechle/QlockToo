@@ -7,9 +7,12 @@ void AccessPointHandler::handleRequest(AsyncWebServerRequest *request) {
   Serial.println(request->url());
 
   if (request->url() == "/submit") {
-    onSubmit(request);
+    onSubmit(request);    
     return request->send(SPIFFS, "/credentials.html", "text/html");
   }
+
+  if (request->url() == "/ping")
+    return request->send(200);
 
   if (request->url() == "/credentials.css")
     return request->send(SPIFFS, "/credentials.css", "text/css");
