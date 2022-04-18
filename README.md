@@ -4,7 +4,7 @@ Replica of <a href="https://qlocktwo.com/de/stores">QlockTwo</a> using Arduino.
 <img src="doc/QlockToo.jpg" alt="QlockToo" width="320" height="320">
 
  QlockToo needs your Wi-Fi credentials for remote control and autonomous time synchronizing.
- When the QlockToo is disconnected, it will open an access point named “QlockToo” with password “QlockToo”.
+ When the QlockToo is disconnected during the day, it will open an access point named “QlockToo” with password “QlockToo”.
  After successfully entering the Wi-Fi credentials, the access point will be closed.
  You should then be able to access your QlockToo by http://qlocktoo or http://qlocktoo.fritz.box (tested with FritzBox 7412 and 7530).
  Before entering the website, you will be asked to enter a username and a password. Again, enter “QlockToo” as username and password.
