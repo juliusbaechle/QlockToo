@@ -150,6 +150,7 @@
     <ClCompile Include="QlockServer.cpp" />
     <ClCompile Include="QlockToo.cpp" />
     <ClCompile Include="SwabianDisplay.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="WebsiteHandler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
