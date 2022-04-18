@@ -33,10 +33,10 @@ void Configuration::save() {
   doc["utc_offset"] = utcOffset();
   doc["qlock_name"] = qlockName();
   doc["qlock_password"] = qlockPassword();
-  doc["startup_time"] = startupTime().toMinString();
-  doc["shutdown_time"] = shutdownTime().toMinString();
-  doc["foreground_color"] = foregroundColor().toString();
-  doc["background_color"] = backgroundColor().toString();
+  doc["startup_time"] = Time::toMinString(startupTime());
+  doc["shutdown_time"] = Time::toMinString(shutdownTime());
+  doc["foreground_color"] = Color::toString(foregroundColor());
+  doc["background_color"] = Color::toString(backgroundColor());
   doc["adaptive_luminosity"] = adaptiveLuminosity();
   doc["wifi_ssid"] = wifiSsid();
   doc["wifi_password"] = wifiPassword();

@@ -9,9 +9,9 @@ struct Time {
   uint8_t minute = 0;
   uint8_t second = 0;
 
-  String toMinString() const {
-    String strHour = hour > 9 ? String(hour) : "0" + String(hour);
-    String strMinute = minute > 9 ? String(minute) : "0" + String(minute);
+  static String toMinString(Time a_time) {
+    String strHour = a_time.hour > 9 ? String(a_time.hour) : "0" + String(a_time.hour);
+    String strMinute = a_time.minute > 9 ? String(a_time.minute) : "0" + String(a_time.minute);
     return strHour + ":" + strMinute;
   }
 

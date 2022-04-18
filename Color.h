@@ -9,12 +9,12 @@ struct Color {
   uint8_t g = 255;
   uint8_t b = 255;
 
-  Color() {};  
+  Color() = default;  
   Color(uint8_t r, uint8_t g, uint8_t b);
+  Color& dimm(uint8_t a_perc);
 
   static Color parse(const String& a_str);
-  String toString();
-  Color& dimm(uint8_t a_perc);
+  static String toString(const Color& a_color);
 };
 
 #endif

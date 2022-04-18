@@ -68,13 +68,13 @@ String WebsiteHandler::getValue(const String& a_var) {
   if (a_var == "AUTO_BRIGHTNESS")
     return m_qlock.adaptiveLuminosity() ? "checked" : "";
   if (a_var == "FOREGROUND_COLOR")
-    return m_qlock.foregroundColor().toString();
+    return Color::toString(m_qlock.foregroundColor());
   if (a_var == "BACKGROUND_COLOR")
-    return m_qlock.backgroundColor().toString();
+    return Color::toString(m_qlock.backgroundColor());
   if (a_var == "STARTUP_TIME")
-    return m_qlock.startupTime().toMinString();
+    return Time::toMinString(m_qlock.startupTime());
   if (a_var == "SHUTDOWN_TIME")
-    return m_qlock.shutdownTime().toMinString();
+    return Time::toMinString(m_qlock.shutdownTime());
   if (a_var == "UTC_OFFSET")
     return String(m_qlock.utcOffset());
   if (a_var == "POSSIBLE_SPECIALS")

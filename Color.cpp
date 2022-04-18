@@ -26,11 +26,11 @@ String toHex(uint8_t a_number) {
   }
 }
 
-String Color::toString() {
+String Color::toString(const Color& a_color) {
   String str = "#";
-  str += toHex(r);
-  str += toHex(g);
-  str += toHex(b);
+  str += toHex(a_color.r);
+  str += toHex(a_color.g);
+  str += toHex(a_color.b);
   return str;
 }
 
