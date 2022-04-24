@@ -4,7 +4,6 @@
   "startup_time": "00:00",
   "shutdown_time": "00:00",
   "foreground_color": "#FFFFFF",
-  "background_color": "#000000",
   "adaptive_luminosity": false,
   "wifi_ssid": "",
   "wifi_password": "",

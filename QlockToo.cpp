@@ -65,7 +65,7 @@ void QlockToo::setForegroundColor(Color a_color) {
 }
 
 void QlockToo::setBackgroundColor(Color a_color) {
-  m_config.setBackgroundColor(a_color);
+  m_backgroundColor = a_color;
   updateDisplay();
 }
 

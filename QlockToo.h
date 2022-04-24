@@ -27,7 +27,7 @@ public:
   Color foregroundColor() const { return m_config.foregroundColor(); }
   void setForegroundColor(Color a_color);
 
-  Color backgroundColor() const { return m_config.backgroundColor(); }
+  Color backgroundColor() const { return m_backgroundColor; }
   void setBackgroundColor(Color a_color);
 
   bool adaptiveLuminosity() const { return m_config.adaptiveLuminosity(); }
@@ -60,6 +60,7 @@ private:
   QlockClock m_clock;
   uint64_t m_nextDisplayUpdateMs = 0;
   String m_special = "";
+  Color m_backgroundColor = { 0, 0, 0 };
 };
 
 #endif
