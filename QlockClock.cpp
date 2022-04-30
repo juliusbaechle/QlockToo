@@ -17,7 +17,7 @@ void QlockClock::update() {
 
   Serial.print("RTC-Update: ");
   if (m_timeClient.update()) {
-    m_nextUpdateMs = millis() + 60 * 60 * 1000;
+    m_nextUpdateMs = millis() + 5 * 60 * 1000;
     setRTCTime(getNTPTime());
     Serial.println("succeeded");
   } else {
