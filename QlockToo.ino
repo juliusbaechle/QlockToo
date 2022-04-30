@@ -18,4 +18,5 @@ void setup() {
 void loop() {
   qlock.update();
   server.update();
+  delay(5);
 }
