@@ -5,10 +5,12 @@
 #include <WiFi.h>
 #include <AsyncTCP.h>
 
-void QlockServer::initialize(){
+void QlockServer::initialize() {
+  WiFi.mode(WIFI_STA);
   WiFi.begin(m_qlock.wifiSsid().c_str(), m_qlock.wifiPassword().c_str());
   WiFi.setHostname(m_qlock.qlockName().c_str());
   WiFi.setAutoReconnect(false);
+  WiFi.setSleep(false);
 
   m_server.addHandler(new WebsiteHandler(m_qlock)).setFilter(ON_STA_FILTER);
   m_server.addHandler(new AccessPointHandler(m_qlock)).setFilter(ON_AP_FILTER);
