@@ -24,7 +24,7 @@ Replica of <a href="https://qlocktwo.com/de/stores">QlockTwo</a> using Arduino.
 - **Change language**   
     Include `GermanDisplay.h` or `SwabianDisplay.h` in `QlockToo.ino`.  
     Declare `GermanDisplay` or `SwabianDisplay` accordingly.  
-- **Select specials**  
+- **Select specials (heart and names)**  
    Open `Specials.h` and adjust the `specials` map.  
    The website will contain all chosen special names in its selection.
 - **Name and password**  
