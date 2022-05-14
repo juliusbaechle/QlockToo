@@ -1,6 +1,6 @@
 #include "soc/rtc_cntl_reg.h"
 #include "Specials.h"
-#include "GermanDisplay.h"
+#include "SwabianDisplay.h"
 #include "QlockToo.h"
 #include "QlockServer.h"
 
