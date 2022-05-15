@@ -23,7 +23,8 @@ Replica of <a href="https://qlocktwo.com/de/stores">QlockTwo</a> using Arduino.
 ## Code Customization
 - **Change language**   
     Include `GermanDisplay.h` or `SwabianDisplay.h` in `QlockToo.ino`.  
-    Declare `GermanDisplay` or `SwabianDisplay` accordingly.  
+    Instantiate `GermanDisplay` or `SwabianDisplay` accordingly.  
+    A flag can be passed to `GermanDisplay` to determine whether “dreiviertel” or “viertel vor” is used.
 - **Select specials (heart and names)**  
    Open `Specials.h` and adjust the `specials` map.  
    The website will contain all chosen special names in its selection.

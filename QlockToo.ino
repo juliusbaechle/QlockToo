@@ -4,7 +4,7 @@
 #include "QlockToo.h"
 #include "QlockServer.h"
 
-GermanDisplay display(specials);
+GermanDisplay display(specials, false);
 QlockToo qlock(display);
 QlockServer server(qlock);
 

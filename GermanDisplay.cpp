@@ -28,6 +28,11 @@ const set<uint8_t> zwoelf = { 92, 91, 90, 89, 88 };
 const set<uint8_t> uhr = { 107, 108, 109 };
 
 
+GermanDisplay::GermanDisplay(const std::map<String, set<uint8_t>>& a_specials, bool a_useDreiviertel)
+  : Display(a_specials)
+  , m_useDreiviertel(a_useDreiviertel) 
+{};
+
 set<uint8_t> GermanDisplay::getMinutes(uint8_t a_minute) {
   if (a_minute >= 5 && a_minute < 10)
     return fuenf_min + nach;
@@ -45,8 +50,10 @@ set<uint8_t> GermanDisplay::getMinutes(uint8_t a_minute) {
     return fuenf_min + nach + halb;
   if (a_minute >= 40 && a_minute < 45)
     return zehn_min + nach + halb;
-  if (a_minute >= 45 && a_minute < 50)
+  if (a_minute >= 45 && a_minute < 50 && m_useDreiviertel)
     return dreiviertel;
+  if (a_minute >= 45 && a_minute < 50 && !m_useDreiviertel)
+    return viertel + vor;
   if (a_minute >= 50 && a_minute < 55)
     return zehn_min + vor;
   if (a_minute >= 55 && a_minute < 60)
