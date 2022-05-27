@@ -1,7 +1,8 @@
 # QlockToo
 Replica of <a href="https://qlocktwo.com/de/stores">QlockTwo</a> using Arduino.  
 
-<img src="doc/QlockToo.jpg" alt="QlockToo" width="320" height="320">
+<img src="doc/QlockToo.jpeg" alt="QlockToo" width="500" height="500">
+<img src="doc/QlockToo.jpeg" alt="QlockToo" width="250" height="500">
 
  QlockToo needs your Wi-Fi credentials for remote control and autonomous time synchronizing.
  When the QlockToo is disconnected during the day, it will open an access point named “QlockToo” with password “QlockToo”.
