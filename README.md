@@ -21,7 +21,7 @@ Before accessing the website, you'll have to enter the clock's name and password
 ## Development Setup And Upload
 Install the libraries and tools below:
  - <a href="https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/">ESP32 board</a>
- - <a href="https://randomnerdtutorials.com/install-esp32-filesystem-uploader-arduino-ide/">ESP32 filesystem uploader</a>
+ - <a href="https://randomnerdtutorials.com/install-esp32-filesystem-uploader-arduino-ide/">ESP32 file system uploader</a>
  - Packed libraries in `/libraries` folder
 
 Select following board settings in your Arduino IDE:
@@ -31,7 +31,7 @@ Select following board settings in your Arduino IDE:
  - Core Debug Level: None </li>
 
 Then connect the ESP32 via a data cable and press upload.  
-If you see the pattern "____....._____....." you have to press the boot button.
+If you see the pattern "____....._____.....", you have to press the boot button.
  
 ## Code Customization
 - **Change language**   
