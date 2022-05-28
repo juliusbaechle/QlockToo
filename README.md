@@ -32,6 +32,9 @@ Select following board settings in your Arduino IDE:
 
 Then connect the ESP32 via a data cable and press upload.  
 If you see the pattern "____....._____.....", you have to press the boot button.
+
+To upload the websites and the configuration too, you have to upload the `/data`  
+folder by starting the `ESP32 Sketch Data Upload` in your Arduino IDE.
  
 ## Code Customization
 - **Change language**   
