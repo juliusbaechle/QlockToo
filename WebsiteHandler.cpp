@@ -2,6 +2,22 @@
 #include <ArduinoJson.h>
 #include <SPIFFS.h>
 
+inline String toJsonArray(const std::vector<String> a_specials) {
+  StaticJsonDocument<255> doc;
+  JsonArray array = doc.to<JsonArray>();
+  for (const String& special : a_specials)
+    array.add(special);
+
+  String str = "";
+  serializeJson(doc, str);
+  return str;
+}
+
+WebsiteHandler::WebsiteHandler(QlockToo& a_qlock)
+  : m_qlock(a_qlock)
+  , m_events("/events") 
+{}
+
 void WebsiteHandler::handleRequest(AsyncWebServerRequest *request) {
   Serial.print("request on sta: ");
   Serial.println(request->url());
@@ -32,52 +48,53 @@ void WebsiteHandler::handlePutRequest(AsyncWebServerRequest* request) {
   if (!request->authenticate(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str()))
     return request->requestAuthentication();
 
-  Serial.print("value: ");
-  Serial.println(request->getParam("value")->value());
+  String var = request->url();
+  var.replace("/", "");
+  String value = request->getParam("value")->value();
 
-  if (request->url() == "/foreground_color")
-    m_qlock.setForegroundColor(Color::parse(request->getParam("value")->value()));
-  if (request->url() == "/background_color")
-    m_qlock.setBackgroundColor(Color::parse(request->getParam("value")->value()));
-  if (request->url() == "/startup_time")
-    m_qlock.setStartupTime(Time::parseMinString(request->getParam("value")->value()));
-  if (request->url() == "/shutdown_time")
-    m_qlock.setShutdownTime(Time::parseMinString(request->getParam("value")->value()));
-  if (request->url() == "/auto_brightness")
-    m_qlock.setAdaptiveLuminosity(request->getParam("value")->value() == "true");
-  if (request->url() == "/utc_offset")
-    m_qlock.setUtcOffset(request->getParam("value")->value().toInt());
-  if (request->url() == "/special")
-    m_qlock.setSpecial(request->getParam("value")->value());
+  Serial.print("variable: ");
+  Serial.print(var);
+  Serial.print(", value: ");
+  Serial.println(value);
 
+  setValue(var, value);
+  m_events.send(value.c_str(), var.c_str(), millis());
   request->send(200);
 }
 
-inline String toJsonArray(const std::vector<String> a_specials) {
-  StaticJsonDocument<255> doc;
-  JsonArray array = doc.to<JsonArray>();
-  for (const String& special : a_specials)
-    array.add(special);
-
-  String str = "";
-  serializeJson(doc, str);
-  return str;
+void WebsiteHandler::setValue(const String& a_var, const String& a_value) {
+  if (a_var == "auto_brightness")
+    m_qlock.setAdaptiveLuminosity(a_value == "true");
+  if (a_var == "foreground_color")
+    m_qlock.setForegroundColor(Color::parse(a_value));
+  if (a_var == "background_color")
+    m_qlock.setBackgroundColor(Color::parse(a_value));
+  if (a_var == "startup_time")
+    m_qlock.setStartupTime(Time::parseMinString(a_value));
+  if (a_var == "shutdown_time")
+    m_qlock.setShutdownTime(Time::parseMinString(a_value));
+  if (a_var == "utc_offset")
+    m_qlock.setUtcOffset(a_value.toInt());
+  if (a_var == "special")
+    m_qlock.setSpecial(a_value);
 }
 
 String WebsiteHandler::getValue(const String& a_var) {
-  if (a_var == "AUTO_BRIGHTNESS")
-    return m_qlock.adaptiveLuminosity() ? "checked" : "";
-  if (a_var == "FOREGROUND_COLOR")
+  if (a_var == "auto_brightness")
+    return m_qlock.adaptiveLuminosity() ? "true" : "false";
+  if (a_var == "foreground_color")
     return Color::toString(m_qlock.foregroundColor());
-  if (a_var == "BACKGROUND_COLOR")
+  if (a_var == "background_color")
     return Color::toString(m_qlock.backgroundColor());
-  if (a_var == "STARTUP_TIME")
+  if (a_var == "startup_time")
     return Time::toMinString(m_qlock.startupTime());
-  if (a_var == "SHUTDOWN_TIME")
+  if (a_var == "shutdown_time")
     return Time::toMinString(m_qlock.shutdownTime());
-  if (a_var == "UTC_OFFSET")
+  if (a_var == "utc_offset")
     return String(m_qlock.utcOffset());
-  if (a_var == "POSSIBLE_SPECIALS")
+  if (a_var == "possible_specials")
     return toJsonArray(m_qlock.possibleSpecials());
-  return "INVALID";
+  if (a_var == "special")
+    return m_qlock.special();
+  return "invalid";
 }

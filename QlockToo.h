@@ -37,7 +37,7 @@ public:
   void setUtcOffset(int8_t a_offset);
 
   std::vector<String> possibleSpecials() const { return m_display.possibleSpecials(); }
-  String getSpecial() const { return m_special; }
+  String special() const { return m_special; }
   void setSpecial(const String& a_special);
   
   Time startupTime() const { return m_config.startupTime(); }

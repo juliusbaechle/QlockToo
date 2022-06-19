@@ -1,9 +1,13 @@
 #include "QlockServer.h"
-#include "WebsiteHandler.h"
-#include "AccessPointHandler.h"
 
 #include <WiFi.h>
 #include <AsyncTCP.h>
+
+QlockServer::QlockServer(QlockToo& a_qlock)
+  : m_qlock(a_qlock)
+  , m_websiteHandler(a_qlock)
+  , m_accessPointHandler(a_qlock)
+{}
 
 void QlockServer::initialize() {
   WiFi.mode(WIFI_STA);
@@ -12,8 +16,10 @@ void QlockServer::initialize() {
   WiFi.setAutoReconnect(false);
   WiFi.setSleep(false);
 
-  m_server.addHandler(new WebsiteHandler(m_qlock)).setFilter(ON_STA_FILTER);
-  m_server.addHandler(new AccessPointHandler(m_qlock)).setFilter(ON_AP_FILTER);
+  m_server.addHandler(&m_websiteHandler).setFilter(ON_STA_FILTER);
+  m_server.addHandler(&m_websiteHandler.eventSource()).setFilter(ON_STA_FILTER);
+  m_server.addHandler(&m_accessPointHandler).setFilter(ON_AP_FILTER);
+  m_server.addHandler(&m_accessPointHandler.eventSource()).setFilter(ON_AP_FILTER);
   m_server.begin();
 }
 
@@ -45,7 +51,7 @@ void QlockServer::enableAccessPoint(bool a_enabled) {
     WiFi.mode(WIFI_MODE_APSTA);
     WiFi.softAP(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str());
     m_dnsServer.start(53, "*", WiFi.softAPIP());
-  } else {    
+  } else {
     Serial.println("disabled access point");
     WiFi.mode(WIFI_MODE_STA);
     m_dnsServer.stop();

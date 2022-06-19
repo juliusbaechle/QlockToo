@@ -6,10 +6,10 @@
 
 class AccessPointHandler : public AsyncWebHandler {
 public:
-  AccessPointHandler(QlockToo& a_qlock) : m_qlock(a_qlock) {}
-  virtual ~AccessPointHandler() {}
+  AccessPointHandler(QlockToo& a_qlock);
+  AsyncEventSource& eventSource() { return m_events; }
 
-  bool canHandle(AsyncWebServerRequest *request) override { return true; }
+  bool canHandle(AsyncWebServerRequest *request) override { return request->url() != "/events"; }
   void handleRequest(AsyncWebServerRequest *request) override;
 
 private:
@@ -17,6 +17,7 @@ private:
 
 private:
   QlockToo& m_qlock;
+  AsyncEventSource m_events;
 };
 
 #endif

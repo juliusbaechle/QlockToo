@@ -1,11 +1,11 @@
 {
   "qlock_name": "QlockToo",
   "qlock_password": "QlockToo",
-  "startup_time": "00:00",
-  "shutdown_time": "00:00",
+  "startup_time": "07:00",
+  "shutdown_time": "23:00",
   "foreground_color": "#FFFFFF",
-  "adaptive_luminosity": false,
-  "wifi_ssid": "",
-  "wifi_password": "",
-  "utc_offset": 1
+  "adaptive_luminosity": true,
+  "wifi_ssid": "INVALID",
+  "wifi_password": "INVALID",
+  "utc_offset": 2
 }

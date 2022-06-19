@@ -2,6 +2,15 @@
 #include <SPIFFS.h>
 #include <WiFi.h>
 
+AccessPointHandler::AccessPointHandler(QlockToo& a_qlock)
+  : m_qlock(a_qlock)
+  , m_events("/events") 
+{
+  m_events.onConnect([&](AsyncEventSourceClient* client) {
+    m_events.send("ping", NULL, millis(), 1000);
+  });
+}
+
 void AccessPointHandler::handleRequest(AsyncWebServerRequest *request) {
   Serial.print("request on ap: ");
   Serial.println(request->url());

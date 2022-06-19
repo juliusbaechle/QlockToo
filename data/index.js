@@ -1,68 +1,59 @@
+function initialize() {
+	initializeSpecials('%possible_specials%');
+	updateUtcLabel();
+	setupEventSource();
+}
+
+function initializeSpecials(specialJson) {
+	try {
+		specials = JSON.parse(specialJson);
+		if(specials.length == 0)
+			document.getElementById("specials").style.display = "none";
+		addSpecials(specials);
+	} catch {
+		document.getElementById("specials").style.display = "none";
+	}
+}
+
+function addSpecials(specials) {
+	addSpecial("");
+	for (let special of specials)
+		addSpecial(special);
+	document.getElementById("special").value = "%special%";
+}
+
 function addSpecial(special) {
 	var opt = document.createElement('option');
     opt.value = special;
     opt.innerHTML = special;
-    document.getElementById("specialSelect").appendChild(opt);
+    document.getElementById("special").appendChild(opt);
 }
 
-function setSpecials(specials) {
-	if(specials.length == 0)
-		return document.getElementById("specialSelect").style.display = "none";
-
-	addSpecial("");
-	for (let special of specials)
-		addSpecial(special);
-}
-
-function updateUtcOffset(element) {
-	var str = "Zeitzone: " + (element.value > 0 ? "+" : "") + element.value + "h";
+function updateUtcLabel() {
+	value = document.getElementById("utc_offset").value;
+	var str = "Zeitzone: " + (value > 0 ? "+" : "") + value + "h";
 	document.getElementById("headerTimeZone").innerHTML = str;
 }
 
-function initialize() {
-	setSpecials(JSON.parse('%POSSIBLE_SPECIALS%'));
-	updateUtcOffset(document.getElementById("sldUtcOffset"));
+function setupEventSource() {
+	var source = new EventSource('/events');
+	source.addEventListener('auto_brightness', function(e) { setValue('auto_brightness', e.data) }, false);
+	source.addEventListener('foreground_color', function(e) { setValue('foreground_color', e.data) }, false);
+	source.addEventListener('background_color', function(e) { setValue('background_color', e.data) }, false);
+	source.addEventListener('startup_time', function(e) { setValue('startup_time', e.data) }, false);
+	source.addEventListener('shutdown_time', function(e) { setValue('shutdown_time', e.data) }, false);
+	source.addEventListener('utc_offset', function(e) { setValue('utc_offset', e.data); updateUtcLabel(); }, false);
+	source.addEventListener('special', function(e) { setValue('special', e.data) }, false);
 }
 
-
-function sendAdaptiveLuminosity(element) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/auto_brightness?value=" + element.checked, true);
-	xhr.send();
+function setValue(variable, value) {
+	console.log(variable, value);
+	element = document.getElementById(variable);
+	element.value = value;
 }
 
-function sendForegroundColor(element) {
+function sendVariable(element) {
 	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/foreground_color?value=" + encodeURIComponent(element.value), true);
-	xhr.send();
-}
-
-function sendBackgroundColor(element) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/background_color?value=" + encodeURIComponent(element.value), true);
-	xhr.send();
-}
-
-function sendShutdownTime(element) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/shutdown_time?value=" + element.value, true);
-	xhr.send();
-}
-
-function sendStartupTime(element) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/startup_time?value=" + element.value, true);
-	xhr.send();
-}
-
-function sendUtcOffset(element) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/utc_offset?value=" + encodeURIComponent(element.value), true);
-	xhr.send();
-}
-
-function sendSpecial(element) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("PUT", "/special?value=" + element.value, true);
+	xhr.open("PUT", "/" + element.id + "?value=" + encodeURIComponent(element.value), true);
 	xhr.send();
 }

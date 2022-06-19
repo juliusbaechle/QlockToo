@@ -10,6 +10,8 @@
 		<title>QlockToo Steuerung</title>
 	</head>
   
+	<script src="index.js"></script>
+	
 	<body onload="initialize()">
 		<div id="container">
 			<h1>QlockToo Steuerung</h1>
@@ -18,37 +20,37 @@
 				<div>
 					<h3>Adaptive Helligkeit</h3>
 					<label class="switch">
-					  <input type="checkbox" oninput="sendAdaptiveLuminosity(this)" %AUTO_BRIGHTNESS%>
+					  <input type="checkbox" id="auto_brightness" oninput='value = (value == "false")' onchange="sendVariable(this)" value=%auto_brightness%>
 					  <span class="slider round"></span>
 					</label>
 				</div>
 
 				<div>
 					<h3>Vordergrundfarbe</h3>
-					<input type="color" id="inpForegroundColor" onchange="sendForegroundColor(this)" value="%FOREGROUND_COLOR%">
+					<input type="color" id="foreground_color" onchange="sendVariable(this)" value="%foreground_color%">
 				</div>
 
 				<div>
 					<h3>Hintergrundfarbe</h3>
-					<input type="color" id="inpBackgroundColor" onchange="sendBackgroundColor(this)" value="%BACKGROUND_COLOR%">
+					<input type="color" id="background_color" onchange="sendVariable(this)" value="%background_color%">
 				</div>
 
 				<div>
 					<h3>Nachtmodus</h3>
 					<div>
-						<input type="time" id="inpShutdownTime" onchange="sendShutdownTime(this)" value="%SHUTDOWN_TIME%"> bis
-						<input type="time" id="inpStartupTime" onchange="sendStartupTime(this)" value="%STARTUP_TIME%">
+						<input type="time" id="shutdown_time" onchange="sendVariable(this)" value="%shutdown_time%"> bis
+						<input type="time" id="startup_time" onchange="sendVariable(this)" value="%startup_time%">
 					</div>
 				</div>
 					
 				<div id="specials">
 					<h3>Spezialeffekt</h3>
-					<select type="select" id="specialSelect" onchange="sendSpecial(this)"></select>
+					<select type="select" id="special" onchange="sendVariable(this)"></select>
 				</div>
 
 				<div>
 					<h3 id="headerTimeZone">Zeitzone</h3>
-					<input type="range" id="sldUtcOffset" oninput="updateUtcOffset(this)" onchange="sendUtcOffset(this)" value="%UTC_OFFSET%" min="-12" max="12">
+					<input type="range" id="utc_offset" oninput="updateUtcLabel()" onchange="console.log('utc_changed'); sendVariable(this)" value="%utc_offset%" min="-12" max="12">
 				</div>
 			</div>
 		</div>
@@ -58,6 +60,4 @@
 			Developed on <a href="https://github.com/juliusbaechle/QlockToo">GitHub</a>
 		</div>
 	</body>  
-  
-	<script src="index.js"></script>
 </html>
