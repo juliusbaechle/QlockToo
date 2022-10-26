@@ -2,11 +2,11 @@
 #include "Specials.h"
 #include "GermanDisplay.h"
 #include "QlockToo.h"
-#include "QlockServer.h"
+#include "QlockTooServer.h"
 
 GermanDisplay display(specials, false);
 QlockToo qlock(display);
-QlockServer server(qlock);
+QlockTooServer server(qlock);
 
 void setup() {
   Serial.begin(115200);

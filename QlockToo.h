@@ -2,7 +2,7 @@
 #define QLOCKTOO__H
 
 #include "Display.h"
-#include "QlockClock.h"
+#include "Clock.h"
 #include "Configuration.h"
 
 class QlockToo {
@@ -12,11 +12,11 @@ public:
 
   void update();
 
-  String qlockName() const { return m_config.qlockName(); }
-  void setQlockName(String a_username) { m_config.setQlockName(a_username); }
+  String name() const { return m_config.name(); }
+  void setName(String a_username) { m_config.setName(a_username); }
 
-  String qlockPassword() const { return m_config.qlockPassword(); }
-  void setQlockPassword(String a_password) { m_config.setQlockPassword(a_password); }
+  String password() const { return m_config.password(); }
+  void setPassword(String a_password) { m_config.setPassword(a_password); }
 
   String wifiSsid() const { return m_config.wifiSsid(); }
   void setWifiSsid(String a_ssid) { m_config.setWifiSsid(a_ssid); }
@@ -57,7 +57,7 @@ private:
   bool m_nightMode = false;
   Display& m_display;
   Configuration m_config;
-  QlockClock m_clock;
+  Clock m_clock;
   uint64_t m_nextDisplayUpdateMs = 0;
   String m_special = "";
   Color m_backgroundColor = { 0, 0, 0 };

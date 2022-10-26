@@ -17,8 +17,8 @@ Configuration Configuration::load() {
 
   Configuration config;
   config.m_utcOffset = doc["utc_offset"];
-  config.m_qlockName = doc["qlock_name"].as<String>();
-  config.m_qlockPassword = doc["qlock_password"].as<String>();
+  config.m_name = doc["name"].as<String>();
+  config.m_password = doc["password"].as<String>();
   config.m_startupTime = Time::parseMinString(doc["startup_time"]);
   config.m_shutdownTime = Time::parseMinString(doc["shutdown_time"]);
   config.m_foregroundColor = Color::parse(doc["foreground_color"]);
@@ -30,8 +30,8 @@ Configuration Configuration::load() {
 
 void Configuration::save() {
   doc["utc_offset"] = utcOffset();
-  doc["qlock_name"] = qlockName();
-  doc["qlock_password"] = qlockPassword();
+  doc["name"] = name();
+  doc["password"] = password();
   doc["startup_time"] = Time::toMinString(startupTime());
   doc["shutdown_time"] = Time::toMinString(shutdownTime());
   doc["foreground_color"] = Color::toString(foregroundColor());

@@ -1,4 +1,4 @@
-#include "QlockClock.h"
+#include "Clock.h"
 #include <Wire.h>
 #include <WiFi.h>
 
@@ -7,11 +7,11 @@
 inline byte decToHex(byte val) { return ((val / 10 * 16) + (val % 10)); }
 inline byte hexToDec(byte val) { return ((val / 16 * 10) + (val % 16)); }
 
-QlockClock::QlockClock() {
+Clock::Clock() {
   Wire.begin();
 }
 
-void QlockClock::update() {
+void Clock::update() {
   if (!WiFi.isConnected()) return;
   if (millis() < m_nextUpdateMs) return;
 
@@ -25,7 +25,7 @@ void QlockClock::update() {
   }
 }
 
-Time QlockClock::currentTime() {
+Time Clock::currentTime() {
   Wire.beginTransmission(DS3231_I2C_ADDRESS);
   Wire.write(0);
   Wire.endTransmission();
@@ -38,7 +38,7 @@ Time QlockClock::currentTime() {
   return time;
 }
 
-Time QlockClock::getNTPTime() {
+Time Clock::getNTPTime() {
   Time time;
   time.hour = (uint8_t)m_timeClient.getHours();
   time.minute = (uint8_t)m_timeClient.getMinutes();
@@ -46,7 +46,7 @@ Time QlockClock::getNTPTime() {
   return time;
 }
 
-void QlockClock::setRTCTime(Time a_time) {
+void Clock::setRTCTime(Time a_time) {
   Wire.beginTransmission(DS3231_I2C_ADDRESS);
   Wire.write(0);
   Wire.write(decToHex(a_time.second));

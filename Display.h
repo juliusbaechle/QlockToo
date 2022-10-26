@@ -5,6 +5,7 @@
 #include "Color.h"
 #include "MySet.h"
 #include <map>
+#include <vector>
 #include <Adafruit_NeoPixel.h>
 
 class Display {
