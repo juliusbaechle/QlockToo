@@ -1,30 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="QlockToo\Configuration.cpp" />
+    <ClCompile Include="QlockToo\QlockToo.cpp" />
+    <ClCompile Include="QlockToo\AccessPointHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\WebsiteHandler.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\QlockTooServer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\Clock.cpp">
+      <Filter>Clock</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\Time.cpp">
+      <Filter>Clock</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\Color.cpp">
+      <Filter>Display</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\Display.cpp">
+      <Filter>Display</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\GermanDisplay.cpp">
+      <Filter>Display</Filter>
+    </ClCompile>
+    <ClCompile Include="QlockToo\SwabianDisplay.cpp">
+      <Filter>Display</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="QlockToo.ino" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="__vm\.QlockToo.vsarduino.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="QlockToo\Configuration.h" />
+    <ClInclude Include="QlockToo\QlockToo.h" />
+    <ClInclude Include="QlockToo\AccessPointHandler.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\WebsiteHandler.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\QlockTooServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\Clock.h">
+      <Filter>Clock</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\Time.h">
+      <Filter>Clock</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\Color.h">
+      <Filter>Display</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\Display.h">
+      <Filter>Display</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\GermanDisplay.h">
+      <Filter>Display</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\MySet.h">
+      <Filter>Display</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\SwabianDisplay.h">
+      <Filter>Display</Filter>
+    </ClInclude>
+    <ClInclude Include="QlockToo\Specials.h">
+      <Filter>Display</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AccessPointHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Filter Include="Display">
+      <UniqueIdentifier>{3c04f569-5f56-418a-b05c-3b541b191710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Clock">
+      <UniqueIdentifier>{9889d028-4c94-4467-87e7-c4ccbc2a6329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{8dde8c03-6dd9-4b47-a623-f7b95114984b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="QlockToo\QlockToo.ino" />
   </ItemGroup>
 </Project>
