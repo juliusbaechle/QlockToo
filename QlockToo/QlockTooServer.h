@@ -7,9 +7,9 @@
 #include "WebsiteHandler.h"
 #include "AccessPointHandler.h"
 
-class QlockServer {
+class QlockTooServer {
 public:
-  QlockServer(QlockToo& a_qlock);
+  QlockTooServer(QlockToo& a_qlock);
   void initialize();
   void update();
 

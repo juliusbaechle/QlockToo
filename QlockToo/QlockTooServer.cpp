@@ -1,18 +1,18 @@
-#include "QlockServer.h"
+#include "QlockTooServer.h"
 
 #include <WiFi.h>
 #include <AsyncTCP.h>
 
-QlockServer::QlockServer(QlockToo& a_qlock)
+QlockTooServer::QlockTooServer(QlockToo& a_qlock)
   : m_qlock(a_qlock)
   , m_websiteHandler(a_qlock)
   , m_accessPointHandler(a_qlock)
 {}
 
-void QlockServer::initialize() {
+void QlockTooServer::initialize() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(m_qlock.wifiSsid().c_str(), m_qlock.wifiPassword().c_str());
-  WiFi.setHostname(m_qlock.qlockName().c_str());
+  WiFi.setHostname(m_qlock.name().c_str());
   WiFi.setAutoReconnect(false);
   WiFi.setSleep(false);
 
@@ -23,7 +23,7 @@ void QlockServer::initialize() {
   m_server.begin();
 }
 
-void QlockServer::update() {
+void QlockTooServer::update() {
   if(m_accessPointEnabled)
     m_dnsServer.processNextRequest();
 
@@ -42,14 +42,14 @@ void QlockServer::update() {
   enableAccessPoint(accessPointEnabled);
 }
 
-void QlockServer::enableAccessPoint(bool a_enabled) {
+void QlockTooServer::enableAccessPoint(bool a_enabled) {
   if (m_accessPointEnabled == a_enabled) return;
   m_accessPointEnabled = a_enabled;
 
   if (m_accessPointEnabled) {
     Serial.println("enabled access point");
     WiFi.mode(WIFI_MODE_APSTA);
-    WiFi.softAP(m_qlock.qlockName().c_str(), m_qlock.qlockPassword().c_str());
+    WiFi.softAP(m_qlock.name().c_str(), m_qlock.password().c_str());
     m_dnsServer.start(53, "*", WiFi.softAPIP());
   } else {
     Serial.println("disabled access point");

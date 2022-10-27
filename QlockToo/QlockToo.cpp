@@ -1,5 +1,4 @@
 #include "QlockToo.h"
-#include "GermanDisplay.h"
 
 #define PHOTORESISTOR_PIN 35
 

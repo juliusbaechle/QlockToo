@@ -5,9 +5,9 @@
 #include <WiFiUdp.h>
 #include "Time.h"
 
-class QlockClock {
+class Clock {
 public:
-  QlockClock();
+  Clock();
 
   void update();
   Time currentTime();

@@ -2,11 +2,11 @@
 #include "Specials.h"
 #include "SwabianDisplay.h"
 #include "QlockToo.h"
-#include "QlockServer.h"
+#include "QlockTooServer.h"
 
 SwabianDisplay display(specials);
 QlockToo qlock(display);
-QlockServer server(qlock);
+QlockTooServer server(qlock);
 
 void setup() {
   Serial.begin(115200);

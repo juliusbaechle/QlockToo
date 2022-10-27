@@ -1,6 +1,6 @@
 {
-  "qlock_name": "QlockToo",
-  "qlock_password": "QlockToo",
+  "name": "QlockToo",
+  "password": "QlockToo",
   "startup_time": "00:00",
   "shutdown_time": "00:00",
   "foreground_color": "#FFFFFF",
