@@ -5,7 +5,7 @@
   "shutdown_time": "00:00",
   "foreground_color": "#FFFFFF",
   "adaptive_luminosity": true,
-  "wifi_ssid": "",
-  "wifi_password": "",
+  "wifi_ssid": "MagentaWLAN-PDZO",
+  "wifi_password": "78092669723931115405",
   "utc_offset": 2
 }
