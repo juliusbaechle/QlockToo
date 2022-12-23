@@ -1,10 +1,10 @@
 #include "soc/rtc_cntl_reg.h"
 #include "Specials.h"
-#include "SwabianDisplay.h"
+#include "GermanDisplay.h"
 #include "QlockToo.h"
 #include "QlockTooServer.h"
 
-SwabianDisplay display(specials);
+GermanDisplay display(specials, false);
 QlockToo qlock(display);
 QlockTooServer server(qlock);
 
