@@ -1,3 +1,5 @@
+[![CodeQL](https://github.com/juliusbaechle/QlockToo/actions/workflows/codeql.yml/badge.svg)](https://github.com/juliusbaechle/QlockToo/actions/workflows/codeql.yml)
+
 # QlockToo
 Replica of <a href="https://qlocktwo.com/de/stores">QlockTwo</a> with an ESP32 which is controlled by a website.
 
